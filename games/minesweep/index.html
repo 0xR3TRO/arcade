@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="MineSweep — clear the field without touching a mine. Part of R3TRO Arcade." />
+        <title>MineSweep · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">MINESWEEP</h1>
+            <div class="stats">
+                <div class="stat"><span>Mines</span><b id="mines">10</b></div>
+                <div class="stat"><span>Time</span><b id="time">0:00</b></div>
+                <div class="stat"><span>Best</span><b id="best">—</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="toolbar">
+                <select id="difficulty" aria-label="Difficulty">
+                    <option value="easy">Easy · 9×9 · 10</option>
+                    <option value="medium">Medium · 16×16 · 40</option>
+                    <option value="hard">Hard · 30×16 · 99</option>
+                </select>
+                <button class="btn secondary" id="flag-mode" aria-pressed="false">Flag mode</button>
+                <button class="btn" id="new-game">New game</button>
+            </div>
+            <div class="field-wrap">
+                <div class="field" id="field" role="grid" aria-label="Minefield"></div>
+            </div>
+            <p class="status" id="status" role="status"></p>
+        </main>
+
+        <p class="hint">Click — reveal · right-click or long-press — flag · click a number with all its flags placed — reveal its neighbours</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

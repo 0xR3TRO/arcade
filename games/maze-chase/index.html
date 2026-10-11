@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Maze Chase — collect every dot while four hunters chase you through the maze. Part of R3TRO Arcade." />
+        <title>Maze Chase · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <style>
+            :root {
+                --w: 560px;
+                --ratio: 1;
+            }
+            .dpad {
+                display: none;
+                grid-template-columns: repeat(3, 64px);
+                grid-template-rows: repeat(2, 56px);
+                gap: 8px;
+                justify-content: center;
+                margin-top: 12px;
+            }
+            .dpad .btn {
+                padding: 0;
+                font-size: 20px;
+                touch-action: none;
+            }
+            .dpad [data-dir="up"] { grid-column: 2; }
+            .dpad [data-dir="left"] { grid-column: 1; grid-row: 2; }
+            .dpad [data-dir="down"] { grid-column: 2; grid-row: 2; }
+            .dpad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+            @media (pointer: coarse) {
+                .dpad { display: grid; }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">MAZE CHASE</h1>
+            <div class="stats">
+                <div class="stat"><span>Score</span><b id="score">0</b></div>
+                <div class="stat"><span>Lives</span><b id="lives">3</b></div>
+                <div class="stat"><span>Level</span><b id="level">1</b></div>
+                <div class="stat"><span>Best</span><b id="best">0</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="frame">
+                <canvas class="board fit-height" id="board" aria-label="Maze Chase game board"></canvas>
+                <div class="overlay" id="overlay">
+                    <div>
+                        <h2 id="overlay-title">MAZE CHASE</h2>
+                        <p id="overlay-text">Collect every dot. Grab a glowing core to turn the hunters blue — then catch them for bonus points.</p>
+                        <button class="btn" id="start">Play</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dpad" aria-label="Direction pad">
+                <button class="btn secondary" data-dir="up" aria-label="Up">▲</button>
+                <button class="btn secondary" data-dir="left" aria-label="Left">◀</button>
+                <button class="btn secondary" data-dir="down" aria-label="Down">▼</button>
+                <button class="btn secondary" data-dir="right" aria-label="Right">▶</button>
+            </div>
+        </main>
+
+        <p class="hint"><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd> / <kbd>WASD</kbd> / swipe — move · <kbd>P</kbd> — pause</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="../../shared/canvas.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

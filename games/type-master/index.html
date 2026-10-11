@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TypeMaster</title>
+		<link rel="stylesheet" href="style.css" />
+	    <link rel="stylesheet" href="../../shared/fonts/fonts.css" />
+	</head>
+	<body data-theme="light">
+		<div class="bg-orb orb-one"></div>
+		<div class="bg-orb orb-two"></div>
+
+		<div class="app-shell">
+			<header class="topbar">
+				<div>
+					<p class="eyebrow">Typing Trainer</p>
+					<h1>TypeMaster</h1>
+				</div>
+				<div class="top-controls">
+					<button id="themeToggle" class="btn ghost" type="button" aria-label="Toggle theme">
+						Theme
+					</button>
+					<div class="view-switch" role="tablist" aria-label="Select view">
+						<button id="showTestView" class="btn small active" type="button" role="tab" aria-selected="true">
+							Test
+						</button>
+						<button id="showHistoryView" class="btn small" type="button" role="tab" aria-selected="false">
+							History
+						</button>
+					</div>
+				</div>
+			</header>
+
+			<main>
+				<section id="testView" class="panel active" aria-labelledby="testHeading">
+					<h2 id="testHeading" class="sr-only">Typing Test</h2>
+
+					<div class="settings-grid">
+						<label class="field" for="durationSelect">
+							<span>Duration</span>
+							<select id="durationSelect">
+								<option value="15">15s</option>
+								<option value="30">30s</option>
+								<option value="60" selected>60s</option>
+								<option value="120">120s</option>
+							</select>
+						</label>
+
+						<label class="field" for="textTypeSelect">
+							<span>Text Type</span>
+							<select id="textTypeSelect">
+								<option value="words">Random Words</option>
+								<option value="sentences" selected>Sentences</option>
+								<option value="quotes">Quotes</option>
+							</select>
+						</label>
+
+						<button id="newTextBtn" class="btn" type="button">New Text</button>
+						<button id="restartBtn" class="btn secondary" type="button">Restart</button>
+					</div>
+
+					<div class="timer-row">
+						<div class="timer-meta">
+							<p>Time Left</p>
+							<strong id="timerValue">60s</strong>
+						</div>
+						<div class="progress-wrap" aria-hidden="true">
+							<div id="progressBar" class="progress-bar"></div>
+						</div>
+					</div>
+
+					<div class="stats-grid" aria-live="polite">
+						<article class="stat-card">
+							<p>WPM</p>
+							<strong id="wpmLive">0</strong>
+						</article>
+						<article class="stat-card">
+							<p>CPM</p>
+							<strong id="cpmLive">0</strong>
+						</article>
+						<article class="stat-card">
+							<p>Accuracy</p>
+							<strong id="accuracyLive">100%</strong>
+						</article>
+						<article class="stat-card">
+							<p>Keystrokes</p>
+							<strong id="keystrokesLive">0</strong>
+						</article>
+					</div>
+
+					<section class="typing-area" aria-label="Typing area">
+						<p id="sourceText" class="source-text" aria-live="off"></p>
+						<label class="sr-only" for="typingInput">Type the text shown above</label>
+						<textarea
+							id="typingInput"
+							spellcheck="false"
+							autocorrect="off"
+							autocapitalize="off"
+							placeholder="Start typing to begin the timer..."
+						></textarea>
+					</section>
+
+					<section id="resultsPanel" class="results-panel" aria-live="polite">
+						<h3>Results</h3>
+						<div class="results-grid">
+							<div>
+								<p>Final WPM</p>
+								<strong id="wpmFinal">0</strong>
+							</div>
+							<div>
+								<p>Final CPM</p>
+								<strong id="cpmFinal">0</strong>
+							</div>
+							<div>
+								<p>Accuracy</p>
+								<strong id="accuracyFinal">100%</strong>
+							</div>
+							<div>
+								<p>Total Keystrokes</p>
+								<strong id="keystrokesFinal">0</strong>
+							</div>
+						</div>
+
+						<div class="share-row">
+							<p id="shareText" class="share-text"></p>
+							<button id="copyShareBtn" class="btn" type="button">Copy Summary</button>
+						</div>
+
+						<div class="comparison-grid">
+							<div>
+								<p class="comparison-title">Original</p>
+								<p id="comparisonOriginal" class="comparison-text"></p>
+							</div>
+							<div>
+								<p class="comparison-title">Your Input</p>
+								<p id="comparisonTyped" class="comparison-text"></p>
+							</div>
+						</div>
+					</section>
+				</section>
+
+				<section id="historyView" class="panel" aria-labelledby="historyHeading">
+					<div class="history-head">
+						<h2 id="historyHeading">Results History</h2>
+						<div class="history-controls">
+							<label class="field compact" for="historySortSelect">
+								<span>Sort</span>
+								<select id="historySortSelect">
+									<option value="newest" selected>Newest</option>
+									<option value="wpm">Highest WPM</option>
+									<option value="accuracy">Best Accuracy</option>
+								</select>
+							</label>
+							<button id="clearHistoryBtn" class="btn ghost" type="button">Clear History</button>
+						</div>
+					</div>
+
+					<div class="history-table-wrap">
+						<table class="history-table">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>WPM</th>
+									<th>Accuracy</th>
+									<th>Keystrokes</th>
+								</tr>
+							</thead>
+							<tbody id="historyTableBody"></tbody>
+						</table>
+						<p id="historyEmptyState" class="empty-state">No tests saved yet.</p>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+		<script src="script.js" defer></script>
+	    <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

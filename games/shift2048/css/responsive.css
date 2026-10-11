@@ -1,0 +1,100 @@
+/* ========================================
+   Shift2048 — Responsive Breakpoints
+   ======================================== */
+
+@media (min-width: 900px) {
+    :root {
+        --grid-size: 420px;
+    }
+}
+
+/* ---- Mobile / Tablet ---- */
+@media (max-width: 899px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .app {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        max-height: none;
+        height: auto;
+        padding: 10px;
+    }
+
+    .main {
+        width: var(--grid-size);
+    }
+
+    .sidebar {
+        flex: none;
+        width: var(--grid-size);
+        max-width: none;
+        max-height: 200px;
+        min-width: 0;
+    }
+
+    .header {
+        padding: 8px 12px;
+    }
+
+    .log-list {
+        max-height: 120px;
+    }
+
+    html,
+    body {
+        overflow: auto;
+    }
+
+    /* Race mode on mobile: stack vertically with smaller grids */
+    .race-wrap {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .race-col .grid-wrap {
+        --grid-size: min(70vw, 300px);
+    }
+}
+
+/* ---- Tiny Phones ---- */
+@media (max-width: 420px) {
+    :root {
+        --grid-size: min(92vw, 360px);
+    }
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .logo {
+        font-size: 1.15rem;
+    }
+
+    .score-box {
+        min-width: 55px;
+        padding: 4px 8px;
+    }
+
+    .score-box .value {
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        font-size: 0.72rem;
+        padding: 8px 0;
+    }
+
+    .mode-btn {
+        font-size: 0.65rem;
+        padding: 5px 6px;
+    }
+
+    .race-col .grid-wrap {
+        --grid-size: min(85vw, 280px);
+    }
+}

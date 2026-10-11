@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Clash of Choices — A modern Rock Paper Scissors browser game with multiple modes, stats, and AI difficulty levels."
+        />
+        <title>Clash of Choices</title>
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <link rel="stylesheet" href="../../shared/fonts/fonts.css" />
+    </head>
+    <body>
+        <!-- ===== HEADER ===== -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="logo">⚔️ Clash of Choices</h1>
+            </div>
+            <nav class="header-nav" aria-label="Main navigation">
+                <button
+                    class="nav-btn active"
+                    data-view="game"
+                    aria-current="page"
+                >
+                    Game
+                </button>
+                <button class="nav-btn" data-view="stats">Stats</button>
+                <button class="nav-btn" data-view="settings">Settings</button>
+            </nav>
+            <div class="header-right">
+                <button
+                    class="icon-btn"
+                    id="themeToggle"
+                    aria-label="Toggle dark/light mode"
+                    title="Toggle theme"
+                >
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button
+                    class="icon-btn"
+                    id="soundToggle"
+                    aria-label="Toggle sound effects"
+                    title="Toggle sound"
+                >
+                    <span class="sound-icon">🔊</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ===== MAIN ===== -->
+        <main class="app-main">
+            <!-- ——— GAME VIEW ——— -->
+            <section
+                class="view view--game active"
+                id="viewGame"
+                aria-label="Game area"
+            >
+                <!-- Mode selector bar -->
+                <div class="mode-bar">
+                    <button
+                        class="mode-btn active"
+                        data-mode="quick"
+                        aria-pressed="true"
+                    >
+                        Quick Match
+                    </button>
+                    <button
+                        class="mode-btn"
+                        data-mode="bestof"
+                        aria-pressed="false"
+                    >
+                        Best of X
+                    </button>
+                    <button
+                        class="mode-btn"
+                        data-mode="local"
+                        aria-pressed="false"
+                    >
+                        Local 1v1
+                    </button>
+                </div>
+
+                <!-- Best-of config (hidden by default) -->
+                <div class="bestof-config hidden" id="bestofConfig">
+                    <label for="bestofSelect">First to:</label>
+                    <select id="bestofSelect">
+                        <option value="3">3 wins</option>
+                        <option value="5">5 wins</option>
+                        <option value="7">7 wins</option>
+                    </select>
+                    <button class="btn btn--sm" id="bestofStart">
+                        Start Series
+                    </button>
+                </div>
+
+                <!-- Scoreboard -->
+                <div class="scoreboard" id="scoreboard">
+                    <div class="score-col">
+                        <span class="score-label" id="p1Label">You</span>
+                        <span class="score-value" id="p1Score">0</span>
+                    </div>
+                    <div class="score-divider">
+                        <span class="round-info" id="roundInfo">—</span>
+                        <span class="vs-text">VS</span>
+                    </div>
+                    <div class="score-col">
+                        <span class="score-label" id="p2Label">CPU</span>
+                        <span class="score-value" id="p2Score">0</span>
+                    </div>
+                </div>
+
+                <!-- Arena — where choices appear -->
+                <div class="arena" id="arena">
+                    <div class="arena-hand arena-hand--left" id="arenaLeft">
+                        <div class="hand-emoji" aria-hidden="true">❓</div>
+                        <span class="hand-label" id="arenaLeftLabel"
+                            >Pick a move</span
+                        >
+                    </div>
+                    <div class="arena-vs">⚡</div>
+                    <div class="arena-hand arena-hand--right" id="arenaRight">
+                        <div class="hand-emoji" aria-hidden="true">❓</div>
+                        <span class="hand-label" id="arenaRightLabel"
+                            >Waiting</span
+                        >
+                    </div>
+                </div>
+
+                <!-- Result banner -->
+                <div
+                    class="result-banner hidden"
+                    id="resultBanner"
+                    role="alert"
+                    aria-live="polite"
+                >
+                    <span class="result-text" id="resultText"></span>
+                    <span class="result-detail" id="resultDetail"></span>
+                </div>
+
+                <!-- Local 1v1: Player 1 hand-off screen -->
+                <div class="handoff-screen hidden" id="handoffScreen">
+                    <h2 class="handoff-title" id="handoffTitle">
+                        Pass to Player 2
+                    </h2>
+                    <p class="handoff-sub">
+                        Tap "Ready" when Player 2 is looking
+                    </p>
+                    <button class="btn btn--primary" id="handoffReady">
+                        Ready
+                    </button>
+                </div>
+
+                <!-- Choice buttons -->
+                <div class="choices" id="choices" aria-label="Choose your move">
+                    <button
+                        class="choice-btn"
+                        data-choice="rock"
+                        aria-label="Rock"
+                    >
+                        <span class="choice-emoji">🪨</span>
+                        <span class="choice-label">Rock</span>
+                    </button>
+                    <button
+                        class="choice-btn"
+                        data-choice="paper"
+                        aria-label="Paper"
+                    >
+                        <span class="choice-emoji">📄</span>
+                        <span class="choice-label">Paper</span>
+                    </button>
+                    <button
+                        class="choice-btn"
+                        data-choice="scissors"
+                        aria-label="Scissors"
+                    >
+                        <span class="choice-emoji">✂️</span>
+                        <span class="choice-label">Scissors</span>
+                    </button>
+                </div>
+
+                <!-- Play again -->
+                <div class="actions hidden" id="gameActions">
+                    <button class="btn btn--primary" id="btnPlayAgain">
+                        Play Again
+                    </button>
+                    <button class="btn btn--ghost" id="btnNewGame">
+                        New Game
+                    </button>
+                </div>
+            </section>
+
+            <!-- ——— STATS VIEW ——— -->
+            <section
+                class="view view--stats"
+                id="viewStats"
+                aria-label="Statistics"
+            >
+                <h2 class="view-title">Your Statistics</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value" id="statTotalRounds">0</span>
+                        <span class="stat-label">Rounds Played</span>
+                    </div>
+                    <div class="stat-card stat-card--win">
+                        <span class="stat-value" id="statWins">0</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                    <div class="stat-card stat-card--lose">
+                        <span class="stat-value" id="statLosses">0</span>
+                        <span class="stat-label">Losses</span>
+                    </div>
+                    <div class="stat-card stat-card--draw">
+                        <span class="stat-value" id="statDraws">0</span>
+                        <span class="stat-label">Draws</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statWinRate">0%</span>
+                        <span class="stat-label">Win Rate</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statCurrentStreak">0</span>
+                        <span class="stat-label">Current Streak</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statBestStreak">0</span>
+                        <span class="stat-label">Best Streak</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statFavMove">—</span>
+                        <span class="stat-label">Favorite Move</span>
+                    </div>
+                </div>
+
+                <!-- Mini bar chart -->
+                <div class="chart-section">
+                    <h3 class="chart-title">Move Distribution</h3>
+                    <div class="bar-chart" id="moveChart">
+                        <div class="bar-row">
+                            <span class="bar-label">🪨 Rock</span>
+                            <div class="bar-track">
+                                <div
+                                    class="bar-fill bar-fill--rock"
+                                    id="barRock"
+                                    style="width: 0%"
+                                ></div>
+                            </div>
+                            <span class="bar-pct" id="pctRock">0%</span>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">📄 Paper</span>
+                            <div class="bar-track">
+                                <div
+                                    class="bar-fill bar-fill--paper"
+                                    id="barPaper"
+                                    style="width: 0%"
+                                ></div>
+                            </div>
+                            <span class="bar-pct" id="pctPaper">0%</span>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">✂️ Scissors</span>
+                            <div class="bar-track">
+                                <div
+                                    class="bar-fill bar-fill--scissors"
+                                    id="barScissors"
+                                    style="width: 0%"
+                                ></div>
+                            </div>
+                            <span class="bar-pct" id="pctScissors">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match history -->
+                <div class="history-section">
+                    <h3 class="chart-title">Recent Rounds</h3>
+                    <div class="history-list" id="historyList">
+                        <p class="history-empty">No rounds played yet.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ——— SETTINGS VIEW ——— -->
+            <section
+                class="view view--settings"
+                id="viewSettings"
+                aria-label="Settings"
+            >
+                <h2 class="view-title">Settings</h2>
+
+                <div class="settings-group">
+                    <h3 class="settings-heading">CPU Difficulty</h3>
+                    <div
+                        class="radio-group"
+                        role="radiogroup"
+                        aria-label="CPU Difficulty"
+                    >
+                        <label class="radio-card">
+                            <input
+                                type="radio"
+                                name="difficulty"
+                                value="easy"
+                            />
+                            <span class="radio-body">
+                                <strong>Easy</strong>
+                                <small>Pure random moves</small>
+                            </span>
+                        </label>
+                        <label class="radio-card">
+                            <input
+                                type="radio"
+                                name="difficulty"
+                                value="normal"
+                                checked
+                            />
+                            <span class="radio-body">
+                                <strong>Normal</strong>
+                                <small>Counters your last move sometimes</small>
+                            </span>
+                        </label>
+                        <label class="radio-card">
+                            <input
+                                type="radio"
+                                name="difficulty"
+                                value="hard"
+                            />
+                            <span class="radio-body">
+                                <strong>Hard</strong>
+                                <small>Analyzes your patterns</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-heading">Appearance</h3>
+                    <div class="setting-row">
+                        <span>Dark Mode</span>
+                        <label class="toggle" aria-label="Toggle dark mode">
+                            <input
+                                type="checkbox"
+                                id="settingDarkMode"
+                                checked
+                            />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <span>Sound Effects</span>
+                        <label class="toggle" aria-label="Toggle sound">
+                            <input type="checkbox" id="settingSound" checked />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-heading">Data</h3>
+                    <div class="setting-row">
+                        <span>Reset all statistics</span>
+                        <button class="btn btn--danger" id="btnResetStats">
+                            Reset Stats
+                        </button>
+                    </div>
+                    <div class="setting-row">
+                        <span>Reset all preferences</span>
+                        <button class="btn btn--danger" id="btnResetAll">
+                            Reset Everything
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="app-footer">
+            <p>
+                Clash of Choices &copy; 2025 · Built by <strong>0xR3TR0</strong>
+            </p>
+        </footer>
+
+        <!-- ===== TOAST CONTAINER ===== -->
+        <div
+            class="toast-container"
+            id="toastContainer"
+            aria-live="polite"
+        ></div>
+
+        <!-- ===== SCRIPTS ===== -->
+        <script src="assets/js/script.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

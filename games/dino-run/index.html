@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Dino Run — an endless runner: jump the rocks, duck the drones. Part of R3TRO Arcade." />
+        <title>Dino Run · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <style>
+            :root {
+                --w: 880px;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">DINO RUN</h1>
+            <div class="stats">
+                <div class="stat"><span>Score</span><b id="score">0</b></div>
+                <div class="stat"><span>Best</span><b id="best">0</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="frame">
+                <canvas class="board" id="board" aria-label="Dino Run game board"></canvas>
+                <div class="overlay" id="overlay">
+                    <div>
+                        <h2 id="overlay-title">DINO RUN</h2>
+                        <p id="overlay-text">Jump over rocks and cacti, duck under the drones.</p>
+                        <button class="btn" id="start">Run</button>
+                    </div>
+                </div>
+            </div>
+            <div class="touch-controls">
+                <button class="btn" id="btn-jump">Jump</button>
+                <button class="btn secondary" id="btn-duck">Duck</button>
+            </div>
+        </main>
+
+        <p class="hint"><kbd>Space</kbd> / <kbd>↑</kbd> — jump (hold for higher) · <kbd>↓</kbd> — duck · <kbd>P</kbd> — pause</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="../../shared/canvas.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

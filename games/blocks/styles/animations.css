@@ -1,0 +1,588 @@
+/* ============================================================================
+   R3TRO Blocks - Animations
+   CSS animations for game effects
+   ============================================================================ */
+
+/* ============================================================================
+   LINE CLEAR ANIMATION
+   ============================================================================ */
+
+@keyframes lineClear {
+    0% {
+        background: white;
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    50% {
+        background: var(--accent-primary);
+        opacity: 0.8;
+        transform: scaleY(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleY(0);
+    }
+}
+
+.line-clearing {
+    animation: lineClear 0.3s ease-out forwards;
+}
+
+/* ============================================================================
+   PIECE LOCK ANIMATION
+   ============================================================================ */
+
+@keyframes lockFlash {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(2);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
+.piece-locking {
+    animation: lockFlash 0.15s ease-out;
+}
+
+/* ============================================================================
+   GAME OVER ANIMATION
+   ============================================================================ */
+
+@keyframes boardCollapse {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes boardFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.game-over-animation {
+    animation: boardCollapse 1s ease-in forwards;
+}
+
+.game-start-animation {
+    animation: boardFadeIn 0.3s ease-out;
+}
+
+/* ============================================================================
+   GLITCH EFFECT (for Quad, T-Spin)
+   ============================================================================ */
+
+@keyframes glitch {
+    0%,
+    100% {
+        clip-path: none;
+        transform: translate(0);
+    }
+    20% {
+        clip-path: inset(0 0 67% 0);
+        transform: translate(-3px, 0);
+    }
+    40% {
+        clip-path: inset(33% 0 33% 0);
+        transform: translate(3px, 0);
+    }
+    60% {
+        clip-path: inset(67% 0 0 0);
+        transform: translate(-2px, 0);
+    }
+    80% {
+        clip-path: inset(33% 0 33% 0);
+        transform: translate(2px, 0);
+    }
+}
+
+.glitch-text {
+    animation: glitch 0.3s infinite;
+}
+
+/* Alternative glitch with color split */
+@keyframes glitchColor {
+    0%,
+    100% {
+        text-shadow:
+            -2px 0 #ff0000,
+            2px 0 #00ffff;
+    }
+    25% {
+        text-shadow:
+            2px 0 #ff0000,
+            -2px 0 #00ffff;
+    }
+    50% {
+        text-shadow:
+            -1px 0 #ff0000,
+            1px 0 #00ffff;
+    }
+    75% {
+        text-shadow:
+            1px 0 #ff0000,
+            -1px 0 #00ffff;
+    }
+}
+
+.glitch-color {
+    animation: glitchColor 0.2s infinite;
+}
+
+/* ============================================================================
+   SCORE POPUP ANIMATION
+   ============================================================================ */
+
+@keyframes scorePopup {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.8);
+    }
+}
+
+.score-popup {
+    animation: scorePopup 0.8s ease-out forwards;
+    pointer-events: none;
+}
+
+/* ============================================================================
+   MENU ANIMATIONS
+   ============================================================================ */
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.screen.active {
+    animation: menuFadeIn 0.3s ease-out;
+}
+
+@keyframes logoGlow {
+    0%,
+    100% {
+        text-shadow:
+            0 0 10px var(--accent-primary),
+            0 0 20px var(--accent-primary),
+            0 0 30px var(--accent-primary);
+    }
+    50% {
+        text-shadow:
+            0 0 20px var(--accent-secondary),
+            0 0 40px var(--accent-secondary),
+            0 0 60px var(--accent-secondary);
+    }
+}
+
+.logo-glow {
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+/* ============================================================================
+   FALLING TETROMINO BACKGROUND (Menu)
+   ============================================================================ */
+
+@keyframes tetrominoFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.bg-tetromino {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    animation: tetrominoFall linear infinite;
+}
+
+/* ============================================================================
+   LEVEL UP ANIMATION
+   ============================================================================ */
+
+@keyframes levelUpFlash {
+    0% {
+        background: transparent;
+    }
+    50% {
+        background: rgba(6, 182, 212, 0.3);
+    }
+    100% {
+        background: transparent;
+    }
+}
+
+.level-up-flash {
+    animation: levelUpFlash 0.5s ease-out;
+}
+
+@keyframes levelUpText {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.level-up-text {
+    animation: levelUpText 0.5s ease-out;
+}
+
+/* ============================================================================
+   COMBO COUNTER ANIMATION
+   ============================================================================ */
+
+@keyframes comboPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.combo-pulse {
+    animation: comboPulse 0.3s ease-out;
+}
+
+@keyframes comboGrow {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.combo-grow {
+    animation: comboGrow 0.2s ease-out;
+}
+
+/* ============================================================================
+   BACK-TO-BACK INDICATOR
+   ============================================================================ */
+
+@keyframes b2bShine {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.b2b-indicator {
+    background: linear-gradient(
+        90deg,
+        var(--accent-secondary) 0%,
+        var(--accent-primary) 50%,
+        var(--accent-secondary) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: b2bShine 2s linear infinite;
+}
+
+/* ============================================================================
+   PERFECT CLEAR ANIMATION
+   ============================================================================ */
+
+@keyframes perfectClearExplosion {
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(255, 255, 255, 0.8),
+            0 0 0 0 rgba(124, 58, 237, 0.6);
+    }
+    100% {
+        box-shadow:
+            0 0 0 50px rgba(255, 255, 255, 0),
+            0 0 0 100px rgba(124, 58, 237, 0);
+    }
+}
+
+.perfect-clear {
+    animation: perfectClearExplosion 0.8s ease-out;
+}
+
+@keyframes perfectClearText {
+    0% {
+        transform: scale(0) rotate(-10deg);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.5) rotate(5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.perfect-clear-text {
+    animation: perfectClearText 0.6s ease-out;
+}
+
+/* ============================================================================
+   HIGH SCORE CELEBRATION
+   ============================================================================ */
+
+@keyframes highScoreCelebrate {
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        color: var(--color-O);
+    }
+    25% {
+        transform: scale(1.1) rotate(-3deg);
+        color: var(--accent-primary);
+    }
+    50% {
+        transform: scale(1.2) rotate(0deg);
+        color: var(--color-O);
+    }
+    75% {
+        transform: scale(1.1) rotate(3deg);
+        color: var(--accent-secondary);
+    }
+}
+
+.high-score-celebrate {
+    animation: highScoreCelebrate 0.5s ease-in-out infinite;
+}
+
+/* ============================================================================
+   PAUSE ANIMATION
+   ============================================================================ */
+
+@keyframes pauseSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#pause-overlay.active {
+    animation: pauseSlideIn 0.2s ease-out;
+}
+
+/* ============================================================================
+   BUTTON HOVER EFFECTS
+   ============================================================================ */
+
+@keyframes buttonGlow {
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--accent-primary);
+    }
+    50% {
+        box-shadow:
+            0 0 15px var(--accent-primary),
+            0 0 30px var(--accent-primary);
+    }
+}
+
+.btn:hover,
+.menu-item:hover,
+.pause-btn:hover {
+    animation: buttonGlow 1s ease-in-out infinite;
+}
+
+/* ============================================================================
+   LOADING ANIMATION
+   ============================================================================ */
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+}
+
+/* ============================================================================
+   COUNTDOWN ANIMATION
+   ============================================================================ */
+
+@keyframes countdownPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.countdown-number {
+    animation: countdownPulse 1s ease-out;
+}
+
+/* ============================================================================
+   DISABLE ANIMATIONS (for accessibility/performance)
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* ============================================================================
+   CLASSIC MOTION OVERRIDE
+   Subtle animation language, no neon/glitch emphasis
+   ============================================================================ */
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lineClear {
+    0% {
+        opacity: 0.85;
+        transform: scaleY(1);
+        background: rgba(226, 239, 181, 0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleY(0.75);
+        background: rgba(226, 239, 181, 0.1);
+    }
+}
+
+@keyframes lockFlash {
+    0% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.15);
+    }
+    100% {
+        filter: brightness(1);
+    }
+}
+
+@keyframes actionPop {
+    0% {
+        opacity: 0;
+        transform: translateY(6px) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes actionFade {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-14px);
+    }
+}
+
+.logo-glow,
+.glitch-text,
+.glitch-color,
+.b2b-indicator,
+.high-score-celebrate,
+.perfect-clear,
+.perfect-clear-text {
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+.btn:hover,
+.menu-item:hover,
+.pause-btn:hover {
+    animation: none;
+}

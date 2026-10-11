@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Sudoku — freshly generated puzzles with a unique solution, notes and hints. Part of R3TRO Arcade." />
+        <title>Sudoku · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">SUDOKU</h1>
+            <div class="stats">
+                <div class="stat"><span>Time</span><b id="time">0:00</b></div>
+                <div class="stat"><span>Mistakes</span><b id="mistakes">0</b></div>
+                <div class="stat"><span>Best</span><b id="best">—</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="toolbar">
+                <select id="difficulty" aria-label="Difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button class="btn" id="new-game">New puzzle</button>
+            </div>
+            <div class="sudoku" id="grid" role="grid" aria-label="Sudoku grid"></div>
+            <div class="pad" id="pad">
+                <button class="btn secondary" data-n="1">1</button>
+                <button class="btn secondary" data-n="2">2</button>
+                <button class="btn secondary" data-n="3">3</button>
+                <button class="btn secondary" data-n="4">4</button>
+                <button class="btn secondary" data-n="5">5</button>
+                <button class="btn secondary" data-n="6">6</button>
+                <button class="btn secondary" data-n="7">7</button>
+                <button class="btn secondary" data-n="8">8</button>
+                <button class="btn secondary" data-n="9">9</button>
+            </div>
+            <div class="toolbar actions">
+                <button class="btn secondary" id="notes" aria-pressed="false">Notes</button>
+                <button class="btn secondary" id="erase">Erase</button>
+                <button class="btn secondary" id="hint">Hint</button>
+            </div>
+            <p class="status" id="status" role="status"></p>
+        </main>
+
+        <p class="hint"><kbd>1</kbd>–<kbd>9</kbd> — enter · <kbd>⌫</kbd> — erase · <kbd>N</kbd> — notes · <kbd>H</kbd> — hint · arrows — move</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

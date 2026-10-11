@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="KeyMelody — a two-octave synth piano you can play with your keyboard, mouse or fingers. Part of R3TRO Arcade." />
+        <title>KeyMelody · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">KEYMELODY</h1>
+            <div class="stats">
+                <div class="stat"><span>Octave</span><b id="octave">4</b></div>
+                <div class="stat"><span>Note</span><b id="note">—</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="toolbar">
+                <select id="wave" aria-label="Sound">
+                    <option value="piano">Soft piano</option>
+                    <option value="organ">Organ</option>
+                    <option value="triangle">Flute</option>
+                    <option value="square">Chiptune</option>
+                    <option value="sawtooth">Synth lead</option>
+                </select>
+                <button class="btn secondary" id="oct-down" aria-label="Octave down">Oct −</button>
+                <button class="btn secondary" id="oct-up" aria-label="Octave up">Oct +</button>
+                <button class="btn secondary" id="sustain" aria-pressed="false">Sustain</button>
+                <button class="btn secondary" id="labels" aria-pressed="true">Labels</button>
+                <label class="volume">Volume <input type="range" id="volume" min="0" max="1" step="0.01" value="0.6" /></label>
+            </div>
+            <div class="piano" id="piano" aria-label="Piano keyboard"></div>
+        </main>
+
+        <p class="hint">Lower octave: <kbd>Z</kbd>–<kbd>M</kbd> (black: <kbd>S</kbd> <kbd>D</kbd> <kbd>G</kbd> <kbd>H</kbd> <kbd>J</kbd>) · upper octave: <kbd>Q</kbd>–<kbd>U</kbd> (black: <kbd>2</kbd> <kbd>3</kbd> <kbd>5</kbd> <kbd>6</kbd> <kbd>7</kbd>) · <kbd>←</kbd> <kbd>→</kbd> — octave · hold <kbd>Shift</kbd> — sustain</p>
+
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

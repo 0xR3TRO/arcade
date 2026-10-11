@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Shift2048</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tiles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app" id="app-solo">
+  <!-- Main Column -->
+  <div class="main">
+    <!-- Header -->
+    <div class="card header">
+      <div class="logo"><span>Shift</span>2048</div>
+      <div class="scores">
+        <div class="score-box">
+          <div class="label">Score</div>
+          <div class="value" id="score">0</div>
+        </div>
+        <div class="score-box">
+          <div class="label">Best</div>
+          <div class="value" id="best">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="mode-bar">
+      <button class="mode-btn active" data-mode="solo">Solo</button>
+      <button class="mode-btn" data-mode="watch">Watch AI</button>
+      <button class="mode-btn" data-mode="race">Race AI</button>
+    </div>
+
+    <!-- AI Speed Control -->
+    <div class="ai-controls" id="ai-controls">
+      <label>AI Speed</label>
+      <input type="range" class="speed-slider" id="ai-speed" min="50" max="1000" value="200" step="50" />
+      <span class="speed-val" id="speed-val">200ms</span>
+    </div>
+
+    <!-- Player Grid -->
+    <div class="grid-wrap" id="grid-wrap">
+      <div class="grid-bg" aria-hidden="true">
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      </div>
+      <div class="tile-layer" id="tile-layer"></div>
+
+      <!-- Win Overlay -->
+      <div class="overlay" id="overlay-win">
+        <h2>You Win!</h2>
+        <div class="subtitle">2048 reached</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="btn-continue">Keep Going</button>
+          <button class="btn primary" id="btn-new-win">New Game</button>
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="overlay" id="overlay-over">
+        <h2>Game Over</h2>
+        <div class="subtitle" id="final-score-text">Score: 0</div>
+        <button class="btn primary" id="btn-retry">Try Again</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn primary" id="btn-restart">Restart</button>
+      <button class="btn" id="btn-undo">Undo</button>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-bar">
+      <div class="theme-dot active" data-theme="dark" title="Dark"></div>
+      <div class="theme-dot" data-theme="midnight" title="Midnight"></div>
+      <div class="theme-dot" data-theme="neon" title="Neon"></div>
+    </div>
+
+    <div class="hint">Arrow keys / WASD &middot; Swipe on mobile</div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Audit Log -->
+    <div class="card" style="display:flex;flex-direction:column;flex:1;min-height:0">
+      <div class="log-title">Audit Log</div>
+      <div class="log-list" id="log-list">
+        <div class="log-placeholder">No moves yet.</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card stats-card">
+      <div class="log-title">Statistics</div>
+      <div id="stats-panel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Race Mode Container (hidden by default) -->
+<div class="race-wrap" id="race-wrap">
+  <!-- Player Side -->
+  <div class="race-col">
+    <div class="race-label">You</div>
+    <div class="race-score" id="race-score-player">0</div>
+    <div class="grid-wrap" id="race-grid-player">
+      <div class="grid-bg" aria-hidden="true">
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      </div>
+      <div class="tile-layer" id="race-tiles-player"></div>
+      <div class="overlay" id="race-overlay-player"></div>
+    </div>
+  </div>
+
+  <!-- AI Side -->
+  <div class="race-col">
+    <div class="race-label">AI Bot</div>
+    <div class="race-score" id="race-score-ai">0</div>
+    <div class="grid-wrap" id="race-grid-ai">
+      <div class="grid-bg" aria-hidden="true">
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      </div>
+      <div class="tile-layer" id="race-tiles-ai"></div>
+      <div class="overlay" id="race-overlay-ai"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+    <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

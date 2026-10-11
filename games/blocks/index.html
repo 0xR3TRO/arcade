@@ -1,0 +1,2262 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="R3TRO Blocks — a falling-block puzzle game with modern guideline-style mechanics"
+        />
+        <meta name="theme-color" content="#0a0a0f" />
+        <title>R3TRO Blocks</title>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="styles/main.css" />
+        <link rel="stylesheet" href="styles/game.css" />
+        <link rel="stylesheet" href="styles/animations.css" />
+
+        <!-- Favicon (inline SVG) -->
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='20' fill='%2300f0f0'/><rect x='10' y='35' width='40' height='20' fill='%23a000f0'/><rect x='30' y='60' width='40' height='20' fill='%23f0a000'/><rect x='50' y='60' width='40' height='20' fill='%2300f000'/></svg>"
+        />
+        <link rel="stylesheet" href="../../shared/fonts/fonts.css" />
+    </head>
+
+    <body>
+        <!-- TOAST CONTAINER -->
+        <div class="rt-toast-container" id="toast-container"></div>
+
+        <div id="app" data-theme="dark" data-lang="en">
+            <!-- ====================================================================
+         LAUNCHER / MODE SELECT
+         ==================================================================== -->
+            <div id="modeSelect-screen" class="screen active">
+                <div class="launcher-header">
+                    <div class="launcher-copy">
+                        <p class="launcher-eyebrow" data-i18n="launcher.eyebrow">
+                            Ready to drop?
+                        </p>
+                        <h1 class="launcher-title" data-i18n="launcher.title">
+                            R3TRO Blocks
+                        </h1>
+                        <p
+                            class="launcher-subtitle"
+                            data-i18n="launcher.subtitle"
+                        >
+                            Choose a mode, set your vibe, and jump right into the
+                            stack.
+                        </p>
+                        <div class="launcher-actions">
+                            <button
+                                class="chip-btn chip-btn-icon"
+                                data-action="settings"
+                            >
+                                <span class="chip-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <circle cx="12" cy="12" r="3.25"></circle>
+                                        <path
+                                            d="M12 2.5V5M12 19V21.5M4.7 4.7l1.8 1.8M17.5 17.5l1.8 1.8M2.5 12H5M19 12h2.5M4.7 19.3l1.8-1.8M17.5 6.5l1.8-1.8"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <span data-i18n="settings.title">Settings</span>
+                            </button>
+                            <button
+                                class="chip-btn chip-btn-icon"
+                                data-action="controls"
+                            >
+                                <span class="chip-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                                        <path d="M7 11h10M7 14h6M15 14h2"></path>
+                                    </svg>
+                                </span>
+                                <span data-i18n="controls.title">Controls</span>
+                            </button>
+                            <button
+                                class="chip-btn chip-btn-icon"
+                                data-action="leaderboard"
+                            >
+                                <span class="chip-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                        <path d="M3 10h18M3 14h18M9 5v14M15 5v14"></path>
+                                    </svg>
+                                </span>
+                                <span data-i18n="scores.title">Score Table</span>
+                            </button>
+                            <button
+                                class="chip-btn chip-btn-icon"
+                                data-action="stats"
+                            >
+                                <span class="chip-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <path d="M4 20h16M6 20V12M12 20V8M18 20V5"></path>
+                                    </svg>
+                                </span>
+                                <span data-i18n="stats.title">Stats</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="launcher-quick">
+                        <div class="quick-block">
+                            <div
+                                class="setting-label"
+                                data-i18n="settings.theme"
+                            >
+                                Theme
+                            </div>
+                            <div class="theme-choice-grid">
+                                <button
+                                    class="setting-toggle-btn active"
+                                    data-theme-choice="dark"
+                                    data-i18n="settings.theme_dark"
+                                >
+                                    Dark
+                                </button>
+                                <button
+                                    class="setting-toggle-btn"
+                                    data-theme-choice="light"
+                                    data-i18n="settings.theme_light"
+                                >
+                                    Light
+                                </button>
+                                <button
+                                    class="setting-toggle-btn"
+                                    data-theme-choice="neon"
+                                    data-i18n="settings.theme_neon"
+                                >
+                                    Neon
+                                </button>
+                                <button
+                                    class="setting-toggle-btn"
+                                    data-theme-choice="sunset"
+                                    data-i18n="settings.theme_sunset"
+                                >
+                                    Sunset
+                                </button>
+                            </div>
+                        </div>
+                        <div class="quick-block">
+                            <label
+                                class="setting-label"
+                                for="music-style-quick"
+                                data-i18n="settings.music_style"
+                            >
+                                Music vibe
+                            </label>
+                            <select
+                                id="music-style-quick"
+                                class="setting-select compact"
+                                title="Music style"
+                                aria-label="Music style"
+                            >
+                                <option value="classic" data-i18n="settings.music_style_classic">
+                                    Korobeiniki
+                                </option>
+                                <option value="pulse" data-i18n="settings.music_style_pulse">
+                                    Pulse runner
+                                </option>
+                                <option value="ambient" data-i18n="settings.music_style_ambient">
+                                    Ambient drift
+                                </option>
+                            </select>
+                            <label class="toggle-inline">
+                                <input
+                                    type="checkbox"
+                                    id="music-toggle-quick"
+                                    title="Music"
+                                    aria-label="Music toggle"
+                                />
+                                <span data-i18n="settings.music_toggle">
+                                    Music on
+                                </span>
+                            </label>
+                            <label
+                                class="setting-label"
+                                for="lang-select-quick"
+                                data-i18n="settings.language"
+                            >
+                                Language
+                            </label>
+                            <select
+                                id="lang-select-quick"
+                                class="setting-select compact"
+                                title="Language selection"
+                                aria-label="Language selection"
+                            >
+                                <option value="pl">Polski</option>
+                                <option value="en" selected>English</option>
+                                <option value="de">Deutsch</option>
+                                <option value="ja">日本語</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="mode-grid"
+                    role="listbox"
+                    aria-label="Game mode selection"
+                >
+                    <div class="mode-item mode-card selected" data-action="marathon" tabindex="0" role="option" aria-selected="true">
+                        <div class="mode-meta">
+                            <span class="mode-pill" data-i18n="modes.marathon.name"
+                                >Marathon</span
+                            >
+                            <span class="mode-desc" data-i18n="modes.marathon.desc"
+                                >Classic endless mode. Score as high as you
+                                can!</span
+                            >
+                        </div>
+                        <div class="mode-actions">
+                            <button
+                                class="btn btn-primary"
+                                data-i18n="launcher.start"
+                            >
+                                Start
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mode-item mode-card" data-action="sprint" tabindex="-1" role="option" aria-selected="false">
+                        <div class="mode-meta">
+                            <span class="mode-pill" data-i18n="modes.sprint.name"
+                                >Sprint (40 Lines)</span
+                            >
+                            <span class="mode-desc" data-i18n="modes.sprint.desc"
+                                >Clear 40 lines as fast as possible</span
+                            >
+                        </div>
+                        <div class="mode-actions">
+                            <button
+                                class="btn btn-primary"
+                                data-i18n="launcher.start"
+                            >
+                                Start
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mode-item mode-card" data-action="ultra" tabindex="-1" role="option" aria-selected="false">
+                        <div class="mode-meta">
+                            <span class="mode-pill" data-i18n="modes.ultra.name"
+                                >Ultra (2 Minutes)</span
+                            >
+                            <span class="mode-desc" data-i18n="modes.ultra.desc"
+                                >Score as high as you can in 2 minutes</span
+                            >
+                        </div>
+                        <div class="mode-actions">
+                            <button
+                                class="btn btn-primary"
+                                data-i18n="launcher.start"
+                            >
+                                Start
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="launcher-scoreboard" aria-label="Mode score table">
+                    <h2
+                        class="launcher-scoreboard-title"
+                        data-i18n="scores.title"
+                    >
+                        Score Table
+                    </h2>
+                    <div class="launcher-scoreboard-grid">
+                        <article class="launcher-score-card">
+                            <h3 data-i18n="modes.marathon.name">Marathon</h3>
+                            <div
+                                id="quick-marathon-scores"
+                                class="quick-scores-list"
+                            ></div>
+                        </article>
+                        <article class="launcher-score-card">
+                            <h3 data-i18n="modes.sprint.name">Sprint</h3>
+                            <div
+                                id="quick-sprint-scores"
+                                class="quick-scores-list"
+                            ></div>
+                        </article>
+                        <article class="launcher-score-card">
+                            <h3 data-i18n="modes.ultra.name">Ultra</h3>
+                            <div
+                                id="quick-ultra-scores"
+                                class="quick-scores-list"
+                            ></div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ====================================================================
+         SETTINGS SCREEN
+         ==================================================================== -->
+            <div id="settings-screen" class="screen">
+                <h2 data-i18n="settings.title">Settings</h2>
+                <div class="settings-content">
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.theme"
+                            >Theme</span
+                        >
+                        <div class="setting-toggle-group">
+                            <button
+                                class="setting-toggle-btn active"
+                                data-theme-choice="dark"
+                                data-i18n="settings.theme_dark"
+                            >
+                                Dark
+                            </button>
+                            <button
+                                class="setting-toggle-btn"
+                                data-theme-choice="light"
+                                data-i18n="settings.theme_light"
+                            >
+                                Light
+                            </button>
+                            <button
+                                class="setting-toggle-btn"
+                                data-theme-choice="neon"
+                                data-i18n="settings.theme_neon"
+                            >
+                                Neon
+                            </button>
+                            <button
+                                class="setting-toggle-btn"
+                                data-theme-choice="sunset"
+                                data-i18n="settings.theme_sunset"
+                            >
+                                Sunset
+                            </button>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <span
+                            class="setting-label"
+                            data-i18n="settings.language"
+                            >Language</span
+                        >
+                        <select
+                            id="lang-select"
+                            class="setting-select"
+                            title="Language selection"
+                            aria-label="Language selection"
+                        >
+                            <option value="pl">Polski</option>
+                            <option value="en" selected>English</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ja">日本語</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.das"
+                            >DAS (Delayed Auto Shift)</span
+                        >
+                        <span class="setting-value"
+                            ><span id="das-value">167</span> ms</span
+                        >
+                    </div>
+                    <div class="setting-row">
+                        <input
+                            type="range"
+                            id="das-slider"
+                            min="0"
+                            max="300"
+                            value="167"
+                            title="DAS slider"
+                            aria-label="DAS slider"
+                        />
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.arr"
+                            >ARR (Auto Repeat Rate)</span
+                        >
+                        <span class="setting-value"
+                            ><span id="arr-value">33</span> ms</span
+                        >
+                    </div>
+                    <div class="setting-row">
+                        <input
+                            type="range"
+                            id="arr-slider"
+                            min="0"
+                            max="100"
+                            value="33"
+                            title="ARR slider"
+                            aria-label="ARR slider"
+                        />
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.ghost"
+                            >Ghost Piece</span
+                        >
+                        <input
+                            type="checkbox"
+                            id="ghost-toggle"
+                            checked
+                            title="Ghost piece"
+                            aria-label="Ghost piece"
+                        />
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.music"
+                            >Music</span
+                        >
+                        <input
+                            type="checkbox"
+                            id="music-toggle"
+                            title="Music"
+                            aria-label="Music"
+                        />
+                    </div>
+                    <div class="setting-row">
+                        <span
+                            class="setting-label"
+                            data-i18n="settings.music_style"
+                            >Music vibe</span
+                        >
+                        <select
+                            id="music-style-select"
+                            class="setting-select"
+                            title="Music style"
+                            aria-label="Music style"
+                        >
+                            <option value="classic" data-i18n="settings.music_style_classic">
+                                Korobeiniki
+                            </option>
+                            <option value="pulse" data-i18n="settings.music_style_pulse">
+                                Pulse runner
+                            </option>
+                            <option value="ambient" data-i18n="settings.music_style_ambient">
+                                Ambient drift
+                            </option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label" data-i18n="settings.sfx"
+                            >Sound Effects</span
+                        >
+                        <input
+                            type="checkbox"
+                            id="sfx-toggle"
+                            checked
+                            title="Sound effects"
+                            aria-label="Sound effects"
+                        />
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Volume</span>
+                        <input
+                            type="range"
+                            id="volume-slider"
+                            min="0"
+                            max="100"
+                            value="70"
+                            title="Volume slider"
+                            aria-label="Volume slider"
+                        />
+                    </div>
+                    <div class="setting-row setting-row-action">
+                        <span
+                            class="setting-label"
+                            data-i18n="settings.reset_stats_label"
+                        >
+                            Reset statistics
+                        </span>
+                        <button
+                            type="button"
+                            id="reset-stats-btn"
+                            class="btn btn-danger btn-compact"
+                            data-action="resetStats"
+                            data-i18n="settings.reset_stats_btn"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                    <div class="setting-row setting-row-action">
+                        <span
+                            class="setting-label"
+                            data-i18n="settings.reset_game_label"
+                        >
+                            Reset game data
+                        </span>
+                        <button
+                            type="button"
+                            id="reset-game-btn"
+                            class="btn btn-danger btn-compact"
+                            data-action="resetGameData"
+                            data-i18n="settings.reset_game_btn"
+                        >
+                            Full reset
+                        </button>
+                    </div>
+                </div>
+                <button
+                    class="back-btn"
+                    data-action="back"
+                    data-i18n="settings.back"
+                >
+                    ← Back
+                </button>
+            </div>
+
+            <!-- ====================================================================
+         CONTROLS SCREEN
+         ==================================================================== -->
+            <div id="controls-screen" class="screen">
+                <h2 data-i18n="controls.title">Controls</h2>
+                <div class="controls-content">
+                    <div class="control-row">
+                        <span data-i18n="controls.move_left">Move Left</span>
+                        <span class="control-key">← / A</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.move_right">Move Right</span>
+                        <span class="control-key">→ / D</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.soft_drop">Soft Drop</span>
+                        <span class="control-key">↓</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.hard_drop">Hard Drop</span>
+                        <span class="control-key">Space</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.rotate_cw">Rotate CW</span>
+                        <span class="control-key">↑ / X</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.rotate_ccw">Rotate CCW</span>
+                        <span class="control-key">Z / Ctrl</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.hold">Hold</span>
+                        <span class="control-key">C / Shift</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.pause">Pause</span>
+                        <span class="control-key">P / Esc</span>
+                    </div>
+                    <div class="control-row">
+                        <span data-i18n="controls.restart">Restart</span>
+                        <span class="control-key">R</span>
+                    </div>
+                    <div class="control-divider">Mobile + Web</div>
+                    <div class="control-row">
+                        <span>Touch buttons</span>
+                        <span class="control-key">Move / Rotate / Drop</span>
+                    </div>
+                    <div class="control-row">
+                        <span>Swipe up / down</span>
+                        <span class="control-key">Hard / Soft Drop</span>
+                    </div>
+                    <div class="control-row">
+                        <span>Tap board left / right</span>
+                        <span class="control-key">Rotate CCW / CW</span>
+                    </div>
+                </div>
+                <button
+                    class="back-btn"
+                    data-action="back"
+                    data-i18n="controls.back"
+                >
+                    ← Back
+                </button>
+            </div>
+
+            <!-- ====================================================================
+         LEADERBOARD SCREEN
+         ==================================================================== -->
+            <div id="leaderboard-screen" class="screen">
+                <h2 data-i18n="scores.title">Score Table</h2>
+                <div class="leaderboard-tabs">
+                    <button
+                        class="leaderboard-tab active"
+                        data-mode="marathon"
+                        data-i18n="modes.marathon.name"
+                    >
+                        Marathon
+                    </button>
+                    <button
+                        class="leaderboard-tab"
+                        data-mode="sprint"
+                        data-i18n="modes.sprint.name"
+                    >
+                        Sprint
+                    </button>
+                    <button
+                        class="leaderboard-tab"
+                        data-mode="ultra"
+                        data-i18n="modes.ultra.name"
+                    >
+                        Ultra
+                    </button>
+                </div>
+                <div class="leaderboard-content">
+                    <div
+                        id="marathon-scores"
+                        class="scores-container active"
+                    ></div>
+                    <div id="sprint-scores" class="scores-container"></div>
+                    <div id="ultra-scores" class="scores-container"></div>
+                </div>
+                <button
+                    class="back-btn"
+                    data-action="back"
+                    data-i18n="scores.back"
+                >
+                    ← Back
+                </button>
+            </div>
+
+            <!-- ====================================================================
+         STATS SCREEN
+         ==================================================================== -->
+            <div id="stats-screen" class="screen">
+                <h2 data-i18n="stats.title">Lifetime Stats</h2>
+                <div class="stats-content">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-games">0</div>
+                            <div class="stat-label" data-i18n="stats.games">
+                                Games Played
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-lines">0</div>
+                            <div class="stat-label" data-i18n="stats.lines">
+                                Lines Cleared
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-time">00:00</div>
+                            <div class="stat-label" data-i18n="stats.time">
+                                Time Played
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-pieces">0</div>
+                            <div class="stat-label" data-i18n="stats.pieces">
+                                Pieces Placed
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-max-score">
+                                000000
+                            </div>
+                            <div
+                                class="stat-label"
+                                data-i18n="stats.max_score"
+                            >
+                                Best Score
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-max-level">0</div>
+                            <div
+                                class="stat-label"
+                                data-i18n="stats.max_level"
+                            >
+                                Best Level
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-tspins">0</div>
+                            <div class="stat-label" data-i18n="stats.tspins">
+                                T-Spins
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="stat-quads">0</div>
+                            <div class="stat-label" data-i18n="stats.quads">
+                                Quads
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="back-btn"
+                    data-action="back"
+                    data-i18n="stats.back"
+                >
+                    ← Back
+                </button>
+            </div>
+
+            <!-- ====================================================================
+         GAME CONTAINER
+         ==================================================================== -->
+            <div id="game-container">
+                <div class="game-layout">
+                    <!-- Left Panel: Hold, Score, Level -->
+                    <div class="left-panel">
+                        <div class="panel-section">
+                            <div class="panel-label" data-i18n="game.hold">
+                                Hold
+                            </div>
+                            <div class="hold-container">
+                                <canvas
+                                    id="hold-canvas"
+                                    width="80"
+                                    height="60"
+                                ></canvas>
+                            </div>
+                        </div>
+
+                        <div class="panel-section score-container">
+                            <div class="panel-label" data-i18n="game.score">
+                                Score
+                            </div>
+                            <div class="panel-value" id="score-value">
+                                000000
+                            </div>
+                            <div id="score-flyout"></div>
+                        </div>
+
+                        <div class="panel-section">
+                            <div class="panel-label" data-i18n="game.level">
+                                Level
+                            </div>
+                            <div class="panel-value" id="level-value">1</div>
+                            <div class="level-progress">
+                                <div
+                                    class="level-progress-fill"
+                                    id="level-progress"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <div class="panel-label" data-i18n="game.time">
+                                Time
+                            </div>
+                            <div class="panel-value" id="time-value">
+                                00:00.00
+                            </div>
+                        </div>
+
+                        <div class="panel-section combo-container">
+                            <div class="panel-label" data-i18n="game.combo">
+                                Combo
+                            </div>
+                            <div class="combo-value" id="combo-value">x0</div>
+                        </div>
+                    </div>
+
+                    <!-- Center: Game Board -->
+                    <div class="board-container">
+                        <canvas id="game-canvas"></canvas>
+                        <div id="action-text"></div>
+                    </div>
+
+                    <!-- Right Panel: Next Queue, Lines -->
+                    <div class="right-panel">
+                        <div class="panel-section">
+                            <div class="panel-label" data-i18n="game.next">
+                                Next
+                            </div>
+                            <div class="next-container">
+                                <canvas
+                                    id="next-canvas"
+                                    width="80"
+                                    height="350"
+                                ></canvas>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <div class="panel-label" data-i18n="game.lines">
+                                Lines
+                            </div>
+                            <div class="panel-value" id="lines-value">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="touch-controls"
+                    id="touch-controls"
+                    aria-label="Touch controls"
+                >
+                    <div class="touch-row">
+                        <button
+                            type="button"
+                            class="touch-btn touch-btn-wide"
+                            data-touch-action="hold"
+                            aria-label="Hold"
+                        >
+                            HOLD
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn"
+                            data-touch-action="rotateCCW"
+                            aria-label="Rotate counter clockwise"
+                        >
+                            ↺
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn"
+                            data-touch-action="rotateCW"
+                            aria-label="Rotate clockwise"
+                        >
+                            ↻
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn touch-btn-wide"
+                            data-touch-action="hardDrop"
+                            aria-label="Hard drop"
+                        >
+                            DROP
+                        </button>
+                    </div>
+                    <div class="touch-row">
+                        <button
+                            type="button"
+                            class="touch-btn touch-btn-main"
+                            data-touch-action="moveLeft"
+                            data-repeat="true"
+                            aria-label="Move left"
+                        >
+                            ◀
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn touch-btn-main"
+                            data-touch-action="softDrop"
+                            data-repeat="true"
+                            aria-label="Soft drop"
+                        >
+                            ▼
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn touch-btn-main"
+                            data-touch-action="moveRight"
+                            data-repeat="true"
+                            aria-label="Move right"
+                        >
+                            ▶
+                        </button>
+                        <button
+                            type="button"
+                            class="touch-btn"
+                            data-touch-action="pause"
+                            aria-label="Pause"
+                        >
+                            II
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pause Overlay -->
+                <div id="pause-overlay">
+                    <h2 class="pause-title" data-i18n="pause.title">Paused</h2>
+                    <p class="pause-subtitle">Game is paused</p>
+                    <div class="pause-menu">
+                        <button
+                            class="pause-btn"
+                            data-action="resume"
+                            data-i18n="pause.resume"
+                        >
+                            Resume
+                        </button>
+                        <button
+                            class="pause-btn"
+                            data-action="restart"
+                            data-i18n="pause.restart"
+                        >
+                            Restart
+                        </button>
+                        <button
+                            class="pause-btn"
+                            data-action="settings"
+                            data-i18n="pause.settings"
+                        >
+                            Settings
+                        </button>
+                        <button
+                            class="pause-btn pause-btn-danger"
+                            data-action="quit"
+                            data-i18n="pause.menu"
+                        >
+                            Quit to Menu
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====================================================================
+         GAME OVER SCREEN
+         ==================================================================== -->
+            <div id="gameOver-screen" class="screen">
+                <h1 class="game-over-title" data-i18n="gameover.title">
+                    Game Over
+                </h1>
+                <div id="high-score-notice" data-i18n="gameover.new_record">
+                    New High Score!
+                </div>
+                <div class="game-over-stats">
+                    <div class="game-over-stat">
+                        <div class="game-over-stat-value" id="final-score">
+                            000000
+                        </div>
+                        <div
+                            class="game-over-stat-label"
+                            data-i18n="gameover.score"
+                        >
+                            Score
+                        </div>
+                    </div>
+                    <div class="game-over-stat">
+                        <div class="game-over-stat-value" id="final-level">
+                            1
+                        </div>
+                        <div
+                            class="game-over-stat-label"
+                            data-i18n="gameover.level"
+                        >
+                            Level
+                        </div>
+                    </div>
+                    <div class="game-over-stat">
+                        <div class="game-over-stat-value" id="final-lines">
+                            0
+                        </div>
+                        <div
+                            class="game-over-stat-label"
+                            data-i18n="gameover.lines"
+                        >
+                            Lines
+                        </div>
+                    </div>
+                    <div class="game-over-stat">
+                        <div class="game-over-stat-value" id="final-time">
+                            00:00
+                        </div>
+                        <div
+                            class="game-over-stat-label"
+                            data-i18n="gameover.time"
+                        >
+                            Time
+                        </div>
+                    </div>
+                </div>
+                <div class="game-over-buttons">
+                    <button
+                        class="btn btn-primary"
+                        data-action="restart"
+                        data-i18n="gameover.play_again"
+                    >
+                        Play Again
+                    </button>
+                    <button
+                        class="btn"
+                        data-action="quit"
+                        data-i18n="gameover.menu"
+                    >
+                        Menu
+                    </button>
+                </div>
+            </div>
+
+            <!-- ====================================================================
+         NAME ENTRY SCREEN
+         ==================================================================== -->
+            <div id="nameEntry-screen" class="screen">
+                <h2 data-i18n="gameover.initials">Enter Your Name</h2>
+                <div class="name-entry-container">
+                    <div class="name-char active">A</div>
+                    <div class="name-char">A</div>
+                    <div class="name-char">A</div>
+                </div>
+                <p class="name-instructions" data-i18n="gameover.initials_help">
+                    Use letter keys (A-Z, 0-9), arrows to move, Enter to confirm
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="src/engine.js"></script>
+        <script src="src/renderer.js"></script>
+        <script src="src/input.js"></script>
+        <script src="src/audio.js"></script>
+        <script src="src/storage.js"></script>
+        <script src="src/ui.js"></script>
+        <script src="src/custom-select.js"></script>
+
+        <!-- i18n Module (inline for single-file compatibility) -->
+        <script>
+            const TRANSLATIONS = {
+                pl: {
+                    app: {
+                        title: "R3TRO Blocks",
+                        tagline: "Przeglądarkowa klasyka — nowa era",
+                    },
+                    launcher: {
+                        title: "R3TRO Blocks",
+                        eyebrow: "Gotowy na drop?",
+                        subtitle:
+                            "Wybierz tryb, motyw i muzykę, aby od razu wskoczyć do gry.",
+                        start: "Start",
+                    },
+                    nav: {
+                        settings: "Ustawienia",
+                        controls: "Sterowanie",
+                        scores: "Wyniki",
+                    },
+                    menu: {
+                        play: "Graj",
+                        modes: "Tryby gry",
+                        scores: "Tabela wyników",
+                        settings: "Ustawienia",
+                        controls: "Sterowanie",
+                        stats: "Statystyki",
+                    },
+                    modes: {
+                        marathon: {
+                            name: "Maraton",
+                            desc: "Graj bez limitu czasu. Poziom rośnie co 10 linii.",
+                        },
+                        sprint: {
+                            name: "Sprint",
+                            desc: "Skasuj 40 linii w jak najkrótszym czasie.",
+                        },
+                        ultra: {
+                            name: "Ultra",
+                            desc: "2 minuty. Maksymalny wynik punktowy.",
+                        },
+                        back: "← Powrót",
+                    },
+                    game: {
+                        hold: "Trzymaj",
+                        score: "Wynik",
+                        level: "Poziom",
+                        time: "Czas",
+                        next: "Następne",
+                        lines: "Linie",
+                    },
+                    pause: {
+                        title: "PAUZA",
+                        resume: "Wznów",
+                        restart: "Restart",
+                        settings: "Ustawienia",
+                        menu: "Menu",
+                    },
+                    gameover: {
+                        title: "GAME OVER",
+                        new_record: "NOWY REKORD!",
+                        score: "Wynik",
+                        level: "Poziom",
+                        lines: "Linie",
+                        time: "Czas",
+                        initials: "Wpisz inicjały",
+                        initials_help:
+                            "Wpisz litery (A-Z, 0-9), strzałkami zmień pozycję, Enter zatwierdza",
+                        play_again: "Jeszcze raz",
+                        menu: "Menu",
+                    },
+                    settings: {
+                        title: "Ustawienia",
+                        theme: "Motyw",
+                        theme_dark: "Ciemny",
+                        theme_light: "Jasny",
+                        theme_neon: "Neon",
+                        theme_sunset: "Zachód słońca",
+                        language: "Język",
+                        ghost: "Ghost piece",
+                        music: "Muzyka",
+                        music_style: "Styl muzyki",
+                        music_style_classic: "Klasyczny (Korobeiniki)",
+                        music_style_pulse: "Pulsujący bieg",
+                        music_style_ambient: "Ambientowy dryf",
+                        music_toggle: "Muzyka włączona",
+                        sfx: "Efekty dźwiękowe",
+                        das: "DAS",
+                        arr: "ARR",
+                        reset_stats_label: "Wyczyść statystyki gry",
+                        reset_stats_btn: "Resetuj",
+                        reset_stats_confirm:
+                            "Czy na pewno wyczyścić wszystkie statystyki?",
+                        reset_game_label:
+                            "Przywróć dane gry i wyczyść tabelę wyników",
+                        reset_game_btn: "Pełny reset",
+                        reset_game_confirm:
+                            "Przywrócić ustawienia, wyczyścić statystyki i tabelę wyników?",
+                        back: "← Powrót",
+                    },
+                    controls: {
+                        title: "Sterowanie",
+                        move_left: "Ruch w lewo",
+                        move_right: "Ruch w prawo",
+                        rotate_cw: "Rotacja CW",
+                        rotate_ccw: "Rotacja CCW",
+                        hard_drop: "Hard Drop",
+                        soft_drop: "Soft Drop",
+                        hold: "Trzymaj",
+                        pause: "Pauza",
+                        restart: "Restart",
+                        back: "← Powrót",
+                    },
+                    scores: {
+                        title: "Tabela wyników",
+                        empty: "Brak wyników",
+                        back: "← Powrót",
+                    },
+                    stats: {
+                        title: "Statystyki",
+                        games: "Rozegrane gry",
+                        lines: "Skasowane linie",
+                        time: "Czas gry",
+                        max_score: "Najlepszy wynik",
+                        max_level: "Najlepszy poziom",
+                        quads: "Czwórki",
+                        tspins: "T-Spiny",
+                        pieces: "Położone klocki",
+                        back: "← Powrót",
+                    },
+                    toast: {
+                        theme_dark: "Ciemny motyw",
+                        theme_light: "Jasny motyw",
+                        theme_neon: "Neonowy motyw",
+                        theme_sunset: "Motyw zachodu",
+                        lang_changed: "Język zmieniony",
+                        stats_reset: "Statystyki zostały wyczyszczone",
+                        game_reset: "Dane gry zostały zresetowane",
+                    },
+                },
+                en: {
+                    app: {
+                        title: "R3TRO Blocks",
+                        tagline: "Browser classic — new era",
+                    },
+                    launcher: {
+                        title: "R3TRO Blocks",
+                        eyebrow: "Ready to drop?",
+                        subtitle:
+                            "Pick a mode, theme, and music vibe for an instant start.",
+                        start: "Start",
+                    },
+                    nav: {
+                        settings: "Settings",
+                        controls: "Controls",
+                        scores: "Scores",
+                    },
+                    menu: {
+                        play: "Play",
+                        modes: "Game Modes",
+                        scores: "Score Table",
+                        settings: "Settings",
+                        controls: "Controls",
+                        stats: "Statistics",
+                    },
+                    modes: {
+                        marathon: {
+                            name: "Marathon",
+                            desc: "Play without time limit. Level up every 10 lines.",
+                        },
+                        sprint: {
+                            name: "Sprint",
+                            desc: "Clear 40 lines as fast as possible.",
+                        },
+                        ultra: {
+                            name: "Ultra",
+                            desc: "2 minutes. Maximum point score.",
+                        },
+                        back: "← Back",
+                    },
+                    game: {
+                        hold: "Hold",
+                        score: "Score",
+                        level: "Level",
+                        time: "Time",
+                        next: "Next",
+                        lines: "Lines",
+                    },
+                    pause: {
+                        title: "PAUSED",
+                        resume: "Resume",
+                        restart: "Restart",
+                        settings: "Settings",
+                        menu: "Menu",
+                    },
+                    gameover: {
+                        title: "GAME OVER",
+                        new_record: "NEW RECORD!",
+                        score: "Score",
+                        level: "Level",
+                        lines: "Lines",
+                        time: "Time",
+                        initials: "Enter initials",
+                        initials_help:
+                            "Type letters (A-Z, 0-9), use arrows to move, press Enter to confirm",
+                        play_again: "Play Again",
+                        menu: "Menu",
+                    },
+                    settings: {
+                        title: "Settings",
+                        theme: "Theme",
+                        theme_dark: "Dark",
+                        theme_light: "Light",
+                        theme_neon: "Neon",
+                        theme_sunset: "Sunset",
+                        language: "Language",
+                        ghost: "Ghost piece",
+                        music: "Music",
+                        music_style: "Music vibe",
+                        music_style_classic: "Classic (Korobeiniki)",
+                        music_style_pulse: "Pulse runner",
+                        music_style_ambient: "Ambient drift",
+                        music_toggle: "Music on",
+                        sfx: "Sound Effects",
+                        das: "DAS",
+                        arr: "ARR",
+                        reset_stats_label: "Clear lifetime statistics",
+                        reset_stats_btn: "Reset",
+                        reset_stats_confirm:
+                            "Are you sure you want to reset all statistics?",
+                        reset_game_label:
+                            "Reset all game data and clear score table",
+                        reset_game_btn: "Full reset",
+                        reset_game_confirm:
+                            "Reset settings, statistics, and score table?",
+                        back: "← Back",
+                    },
+                    controls: {
+                        title: "Controls",
+                        move_left: "Move left",
+                        move_right: "Move right",
+                        rotate_cw: "Rotate CW",
+                        rotate_ccw: "Rotate CCW",
+                        hard_drop: "Hard Drop",
+                        soft_drop: "Soft Drop",
+                        hold: "Hold",
+                        pause: "Pause",
+                        restart: "Restart",
+                        back: "← Back",
+                    },
+                    scores: {
+                        title: "Score Table",
+                        empty: "No results yet",
+                        back: "← Back",
+                    },
+                    stats: {
+                        title: "Statistics",
+                        games: "Games played",
+                        lines: "Lines cleared",
+                        time: "Time played",
+                        max_score: "Best score",
+                        max_level: "Best level",
+                        quads: "Quads",
+                        tspins: "T-Spins",
+                        pieces: "Pieces placed",
+                        back: "← Back",
+                    },
+                    toast: {
+                        theme_dark: "Dark theme",
+                        theme_light: "Light theme",
+                        theme_neon: "Neon theme",
+                        theme_sunset: "Sunset theme",
+                        lang_changed: "Language changed",
+                        stats_reset: "Statistics were reset",
+                        game_reset: "Game data has been reset",
+                    },
+                },
+                de: {
+                    app: {
+                        title: "R3TRO Blocks",
+                        tagline: "Browser-Klassiker — neue Ära",
+                    },
+                    launcher: {
+                        title: "R3TRO Blocks",
+                        eyebrow: "Bereit für den Drop?",
+                        subtitle:
+                            "Wähle Modus, Design und Musik für einen sofortigen Start.",
+                        start: "Start",
+                    },
+                    nav: {
+                        settings: "Einstellungen",
+                        controls: "Steuerung",
+                        scores: "Punkte",
+                    },
+                    menu: {
+                        play: "Spielen",
+                        modes: "Spielmodi",
+                        scores: "Punktetabelle",
+                        settings: "Einstellungen",
+                        controls: "Steuerung",
+                        stats: "Statistiken",
+                    },
+                    modes: {
+                        marathon: {
+                            name: "Marathon",
+                            desc: "Ohne Zeitlimit spielen. Level steigt alle 10 Linien.",
+                        },
+                        sprint: {
+                            name: "Sprint",
+                            desc: "40 Linien so schnell wie möglich räumen.",
+                        },
+                        ultra: {
+                            name: "Ultra",
+                            desc: "2 Minuten. Maximale Punktzahl.",
+                        },
+                        back: "← Zurück",
+                    },
+                    game: {
+                        hold: "Halten",
+                        score: "Punkte",
+                        level: "Level",
+                        time: "Zeit",
+                        next: "Nächste",
+                        lines: "Linien",
+                    },
+                    pause: {
+                        title: "PAUSE",
+                        resume: "Fortsetzen",
+                        restart: "Neustart",
+                        settings: "Einstellungen",
+                        menu: "Menü",
+                    },
+                    gameover: {
+                        title: "SPIEL VORBEI",
+                        new_record: "NEUER REKORD!",
+                        score: "Punkte",
+                        level: "Level",
+                        lines: "Linien",
+                        time: "Zeit",
+                        initials: "Initialen eingeben",
+                        initials_help:
+                            "Gib Zeichen ein (A-Z, 0-9), mit Pfeilen wechseln, Enter bestätigt",
+                        play_again: "Nochmal",
+                        menu: "Menü",
+                    },
+                    settings: {
+                        title: "Einstellungen",
+                        theme: "Design",
+                        theme_dark: "Dunkel",
+                        theme_light: "Hell",
+                        theme_neon: "Neon",
+                        theme_sunset: "Sonnenuntergang",
+                        language: "Sprache",
+                        ghost: "Geist-Stück",
+                        music: "Musik",
+                        music_style: "Musik-Stil",
+                        music_style_classic: "Klassisch (Korobeiniki)",
+                        music_style_pulse: "Puls-Runner",
+                        music_style_ambient: "Ambient-Drift",
+                        music_toggle: "Musik an",
+                        sfx: "Soundeffekte",
+                        das: "DAS",
+                        arr: "ARR",
+                        reset_stats_label: "Spielstatistiken zurücksetzen",
+                        reset_stats_btn: "Zurücksetzen",
+                        reset_stats_confirm:
+                            "Möchtest du wirklich alle Statistiken zurücksetzen?",
+                        reset_game_label:
+                            "Spieldaten zurücksetzen und Punktetabelle löschen",
+                        reset_game_btn: "Vollständig zurücksetzen",
+                        reset_game_confirm:
+                            "Einstellungen, Statistiken und Punktetabelle zurücksetzen?",
+                        back: "← Zurück",
+                    },
+                    controls: {
+                        title: "Steuerung",
+                        move_left: "Links bewegen",
+                        move_right: "Rechts bewegen",
+                        rotate_cw: "Drehen CW",
+                        rotate_ccw: "Drehen CCW",
+                        hard_drop: "Hard Drop",
+                        soft_drop: "Soft Drop",
+                        hold: "Halten",
+                        pause: "Pause",
+                        restart: "Neustart",
+                        back: "← Zurück",
+                    },
+                    scores: {
+                        title: "Punktetabelle",
+                        empty: "Noch keine Ergebnisse",
+                        back: "← Zurück",
+                    },
+                    stats: {
+                        title: "Statistiken",
+                        games: "Gespielte Spiele",
+                        lines: "Gelöschte Linien",
+                        time: "Spielzeit",
+                        max_score: "Bester Punktestand",
+                        max_level: "Bestes Level",
+                        quads: "Quads",
+                        tspins: "T-Spins",
+                        pieces: "Platzierte Teile",
+                        back: "← Zurück",
+                    },
+                    toast: {
+                        theme_dark: "Dunkles Design",
+                        theme_light: "Helles Design",
+                        theme_neon: "Neon-Design",
+                        theme_sunset: "Sonnenuntergang-Design",
+                        lang_changed: "Sprache geändert",
+                        stats_reset: "Statistiken wurden zurückgesetzt",
+                        game_reset: "Spieldaten wurden zurückgesetzt",
+                    },
+                },
+                ja: {
+                    app: {
+                        title: "R3TRO Blocks",
+                        tagline: "ブラウザクラシック — 新時代",
+                    },
+                    launcher: {
+                        title: "R3TRO Blocks",
+                        eyebrow: "ドロップの準備はOK？",
+                        subtitle:
+                            "モード・テーマ・音楽を選んで、すぐにゲームへ。",
+                        start: "スタート",
+                    },
+                    nav: {
+                        settings: "設定",
+                        controls: "操作",
+                        scores: "スコア",
+                    },
+                    menu: {
+                        play: "プレイ",
+                        modes: "ゲームモード",
+                        scores: "スコア表",
+                        settings: "設定",
+                        controls: "操作説明",
+                        stats: "統計",
+                    },
+                    modes: {
+                        marathon: {
+                            name: "マラソン",
+                            desc: "時間制限なし。10ラインごとにレベルアップ。",
+                        },
+                        sprint: {
+                            name: "スプリント",
+                            desc: "40ラインを最速でクリア。",
+                        },
+                        ultra: {
+                            name: "ウルトラ",
+                            desc: "2分間。最大ポイントを獲得。",
+                        },
+                        back: "← 戻る",
+                    },
+                    game: {
+                        hold: "ホールド",
+                        score: "スコア",
+                        level: "レベル",
+                        time: "タイム",
+                        next: "ネクスト",
+                        lines: "ライン",
+                    },
+                    pause: {
+                        title: "一時停止",
+                        resume: "再開",
+                        restart: "リスタート",
+                        settings: "設定",
+                        menu: "メニュー",
+                    },
+                    gameover: {
+                        title: "ゲームオーバー",
+                        new_record: "新記録！",
+                        score: "スコア",
+                        level: "レベル",
+                        lines: "ライン",
+                        time: "タイム",
+                        initials: "イニシャルを入力",
+                        initials_help:
+                            "文字キー (A-Z, 0-9) で入力、矢印で移動、Enter で確定",
+                        play_again: "もう一度",
+                        menu: "メニュー",
+                    },
+                    settings: {
+                        title: "設定",
+                        theme: "テーマ",
+                        theme_dark: "ダーク",
+                        theme_light: "ライト",
+                        theme_neon: "ネオン",
+                        theme_sunset: "サンセット",
+                        language: "言語",
+                        ghost: "ゴーストピース",
+                        music: "BGM",
+                        music_style: "音楽スタイル",
+                        music_style_classic: "クラシック（コロベイニキ）",
+                        music_style_pulse: "パルス・ランナー",
+                        music_style_ambient: "アンビエント・ドリフト",
+                        music_toggle: "音楽オン",
+                        sfx: "効果音",
+                        das: "DAS",
+                        arr: "ARR",
+                        reset_stats_label: "プレイ統計をリセット",
+                        reset_stats_btn: "リセット",
+                        reset_stats_confirm:
+                            "すべての統計をリセットしてもよろしいですか？",
+                        reset_game_label:
+                            "ゲームデータを初期化してスコア表をクリア",
+                        reset_game_btn: "完全リセット",
+                        reset_game_confirm:
+                            "設定・統計・スコア表をすべてリセットしますか？",
+                        back: "← 戻る",
+                    },
+                    controls: {
+                        title: "操作説明",
+                        move_left: "左移動",
+                        move_right: "右移動",
+                        rotate_cw: "右回転",
+                        rotate_ccw: "左回転",
+                        hard_drop: "ハードドロップ",
+                        soft_drop: "ソフトドロップ",
+                        hold: "ホールド",
+                        pause: "一時停止",
+                        restart: "リスタート",
+                        back: "← 戻る",
+                    },
+                    scores: {
+                        title: "スコア表",
+                        empty: "まだ結果はありません",
+                        back: "← 戻る",
+                    },
+                    stats: {
+                        title: "統計",
+                        games: "プレイ回数",
+                        lines: "消去ライン",
+                        time: "プレイ時間",
+                        max_score: "最高スコア",
+                        max_level: "最高レベル",
+                        quads: "クアッド",
+                        tspins: "Tスピン",
+                        pieces: "配置ピース",
+                        back: "← 戻る",
+                    },
+                    toast: {
+                        theme_dark: "ダークテーマ",
+                        theme_light: "ライトテーマ",
+                        theme_neon: "ネオンテーマ",
+                        theme_sunset: "サンセットテーマ",
+                        lang_changed: "言語が変更されました",
+                        stats_reset: "統計をリセットしました",
+                        game_reset: "ゲームデータをリセットしました",
+                    },
+                },
+            };
+
+            class I18n {
+                static #locale = "en";
+                static #translations = TRANSLATIONS.en;
+                static get locale() {
+                    return this.#locale;
+                }
+
+                static load(locale) {
+                    if (!TRANSLATIONS[locale]) locale = "en";
+                    this.#locale = locale;
+                    this.#translations = TRANSLATIONS[locale];
+                    this.#updateDOM();
+                }
+
+                static t(key, vars = {}) {
+                    const str = this.#get(key) || key;
+                    if (typeof str !== "string") return key;
+                    return str.replace(
+                        /\{(\w+)\}/g,
+                        (_, k) => vars[k] ?? `{${k}}`,
+                    );
+                }
+
+                static #get(key) {
+                    return key
+                        .split(".")
+                        .reduce((obj, k) => obj?.[k], this.#translations);
+                }
+
+                static #updateDOM() {
+                    document.querySelectorAll("[data-i18n]").forEach((el) => {
+                        const key = el.dataset.i18n;
+                        const val = this.t(key);
+                        if (el.dataset.i18nAttr)
+                            el.setAttribute(el.dataset.i18nAttr, val);
+                        else el.textContent = val;
+                    });
+                    document.documentElement.setAttribute("lang", this.#locale);
+                    document.title = this.t("app.title");
+                    document.dispatchEvent(new CustomEvent("i18n:updated"));
+                }
+            }
+
+            // Theme Manager
+            class ThemeManager {
+                static #current = "dark";
+                static #themes = ["dark", "light", "neon", "sunset"];
+
+                static init() {
+                    const saved = localStorage.getItem("r3tro_blocks_theme") || "dark";
+                    this.set(saved);
+                }
+
+                static get current() {
+                    return this.#current;
+                }
+
+                static set(theme) {
+                    const targetTheme = this.#themes.includes(theme)
+                        ? theme
+                        : "dark";
+                    this.#current = targetTheme;
+                    document
+                        .getElementById("app")
+                        .setAttribute("data-theme", targetTheme);
+                    document.body.style.background = getComputedStyle(
+                        document.documentElement,
+                    )
+                        .getPropertyValue("--rt-bg-base")
+                        .trim();
+                    const metaTheme = document.querySelector(
+                        'meta[name="theme-color"]',
+                    );
+                    if (metaTheme) {
+                        metaTheme.setAttribute(
+                            "content",
+                            getComputedStyle(document.documentElement)
+                                .getPropertyValue("--rt-bg-base")
+                                .trim(),
+                        );
+                    }
+                    localStorage.setItem("r3tro_blocks_theme", targetTheme);
+
+                    document
+                        .querySelectorAll("[data-theme-choice]")
+                        .forEach((btn) => {
+                            btn.classList.toggle(
+                                "active",
+                                btn.dataset.themeChoice === targetTheme,
+                            );
+                        });
+                }
+
+            }
+
+            // Toast notifications
+            function showToast(message, type = "info") {
+                const container = document.getElementById("toast-container");
+                const toast = document.createElement("div");
+                toast.className = `rt-toast ${type}`;
+                toast.textContent = message;
+                container.appendChild(toast);
+
+                requestAnimationFrame(() => toast.classList.add("show"));
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                    setTimeout(() => toast.remove(), 300);
+                }, 2500);
+            }
+        </script>
+
+        <script>
+            "use strict";
+
+            /**
+             * R3TRO Blocks - Main Application
+             * Initializes and coordinates all game systems
+             */
+            class BlocksApp {
+                #engine;
+                #renderer;
+                #input;
+                #audio;
+                #storage;
+                #ui;
+                #customSelects;
+                #lastTime = 0;
+                #gravityAccumulator = 0;
+                #running = false;
+
+                constructor() {
+                    // Initialize theme and i18n first
+                    ThemeManager.init();
+                    const savedLang = localStorage.getItem("r3tro_blocks_lang") || "en";
+                    I18n.load(savedLang);
+                    this.#updateLangButtons(savedLang);
+
+                    this.#storage = new StorageManager();
+                    this.#audio = new AudioEngine();
+                    this.#engine = new GameEngine();
+
+                    // Initialize canvas and renderer
+                    const canvas = document.getElementById("game-canvas");
+                    this.#renderer = new Renderer(canvas, this.#engine);
+
+                    // Initialize input
+                    this.#input = new InputManager(
+                        this.#engine,
+                        this.#storage.getSettings(),
+                    );
+
+                    // Initialize UI
+                    this.#ui = new UIManager(this);
+
+                    // Expose for UI manager
+                    this.engine = this.#engine;
+                    this.renderer = this.#renderer;
+                    this.audio = this.#audio;
+                    this.storage = this.#storage;
+
+                    // Setup event handlers
+                    this.#setupEngineEvents();
+                    this.#setupInputEvents();
+                    this.#setupUIEvents();
+                    this.#setupCustomSelects();
+
+                    // Load settings
+                    this.#applySettings();
+                }
+
+                /**
+                 * Setup custom select controls used across launcher and settings.
+                 */
+                #setupCustomSelects() {
+                    this.#customSelects = new CustomSelectManager([
+                        "lang-select",
+                        "lang-select-quick",
+                        "music-style-select",
+                        "music-style-quick",
+                    ]);
+                    this.#customSelects.init();
+                    this.#customSelects.syncAll();
+                }
+
+                /**
+                 * Setup engine event handlers
+                 */
+                #setupEngineEvents() {
+                    this.#engine.on("pieceSpawn", () => {
+                        // Update next queue display
+                    });
+
+                    this.#engine.on("pieceMove", () => {
+                        this.#audio.playMove();
+                    });
+
+                    this.#engine.on("pieceRotate", () => {
+                        this.#audio.playRotate();
+                    });
+
+                    this.#engine.on("pieceLock", () => {
+                        this.#audio.playLock();
+                        document
+                            .getElementById("game-canvas")
+                            ?.classList.add("lock-flash");
+                        setTimeout(() => {
+                            document
+                                .getElementById("game-canvas")
+                                ?.classList.remove("lock-flash");
+                        }, 150);
+                    });
+
+                    this.#engine.on("hardDrop", () => {
+                        this.#audio.playHardDrop();
+                    });
+
+                    this.#engine.on("hold", () => {
+                        this.#audio.playHold();
+                    });
+
+                    this.#engine.on("lineClear", (data) => {
+                        if (data.lines === 4) {
+                            this.#audio.playQuad();
+                            this.#ui.showActionText("QUAD!", "quad");
+                        } else if (data.isTSpin) {
+                            this.#audio.playTSpin();
+                            this.#ui.showActionText(
+                                `T-SPIN ${["", "SINGLE", "DOUBLE", "TRIPLE"][data.lines]}`,
+                                "tspin",
+                            );
+                        } else {
+                            this.#audio.playLineClear(data.lines);
+                        }
+
+                        if (data.combo > 0) {
+                            this.#ui.showActionText(
+                                `${data.combo + 1}x COMBO`,
+                                "combo",
+                            );
+                        }
+                    });
+
+                    this.#engine.on("levelUp", (data) => {
+                        this.#audio.playLevelUp();
+                        this.#ui.showActionText("LEVEL UP!", "default");
+                        document
+                            .querySelector(".board-container")
+                            ?.classList.add("level-up");
+                        setTimeout(() => {
+                            document
+                                .querySelector(".board-container")
+                                ?.classList.remove("level-up");
+                        }, 500);
+                    });
+
+                    this.#engine.on("gameOver", (data) => {
+                        this.#running = false;
+                        this.#audio.playGameOver();
+                        this.#audio.stopMusic();
+
+                        // Update stats
+                        this.#storage.updateStats({
+                            score: data.score,
+                            level: data.level,
+                            lines: data.lines,
+                            time: data.time,
+                            piecesPlaced: this.#engine.piecesPlaced,
+                            tSpins: this.#engine.tSpins,
+                        });
+
+                        // Show game over screen
+                        setTimeout(() => {
+                            this.#ui.showGameOver({
+                                ...data,
+                                mode: this.#engine.mode,
+                            });
+                        }, 500);
+                    });
+
+                    this.#engine.on("pauseToggle", (data) => {
+                        if (data.paused) {
+                            this.#ui.showPause();
+                            this.#audio.playPause();
+                        } else {
+                            this.#ui.hidePause();
+                        }
+                    });
+
+                    this.#engine.on("sprintComplete", (data) => {
+                        this.#running = false;
+                        this.#ui.showActionText("COMPLETE!", "perfect");
+                        setTimeout(() => {
+                            this.#ui.showGameOver({
+                                ...data,
+                                level: this.#engine.level,
+                                lines: this.#engine.lines,
+                                mode: "sprint",
+                            });
+                        }, 1000);
+                    });
+
+                    this.#engine.on("ultraComplete", (data) => {
+                        this.#ui.showActionText("TIME UP!", "default");
+                        setTimeout(() => {
+                            this.#ui.showGameOver({
+                                ...data,
+                                level: this.#engine.level,
+                                time: 120000,
+                                mode: "ultra",
+                            });
+                        }, 1000);
+                    });
+                }
+
+                /**
+                 * Setup input event handlers
+                 */
+                #setupInputEvents() {
+                    this.#input.on("restart", () => {
+                        if (this.#engine.gameOver) {
+                            this.start(this.#engine.mode);
+                        }
+                    });
+
+                    this.#input.on("toggleFps", () => {
+                        this.#renderer.toggleFps();
+                    });
+                }
+
+                /**
+                 * Setup UI-specific events
+                 */
+                #setupUIEvents() {
+                    // Leaderboard tab switching
+                    document
+                        .querySelectorAll(".leaderboard-tab")
+                        .forEach((tab) => {
+                            tab.addEventListener("click", () => {
+                                document
+                                    .querySelectorAll(".leaderboard-tab")
+                                    .forEach((t) =>
+                                        t.classList.remove("active"),
+                                    );
+                                document
+                                    .querySelectorAll(".scores-container")
+                                    .forEach((c) =>
+                                        c.classList.remove("active"),
+                                    );
+                                tab.classList.add("active");
+                                document
+                                    .getElementById(
+                                        `${tab.dataset.mode}-scores`,
+                                    )
+                                    ?.classList.add("active");
+                            });
+                        });
+
+                    // Settings sliders
+                    document
+                        .getElementById("das-slider")
+                        ?.addEventListener("input", (e) => {
+                            document.getElementById("das-value").textContent =
+                                e.target.value;
+                            this.#storage.updateSettings({
+                                das: parseInt(e.target.value),
+                            });
+                            this.#input.setConfig({
+                                DAS: parseInt(e.target.value),
+                            });
+                        });
+
+                    document
+                        .getElementById("arr-slider")
+                        ?.addEventListener("input", (e) => {
+                            document.getElementById("arr-value").textContent =
+                                e.target.value;
+                            this.#storage.updateSettings({
+                                arr: parseInt(e.target.value),
+                            });
+                            this.#input.setConfig({
+                                ARR: parseInt(e.target.value),
+                            });
+                        });
+
+                    document
+                        .getElementById("volume-slider")
+                        ?.addEventListener("input", (e) => {
+                            this.#audio.setMasterVolume(e.target.value / 100);
+                            this.#storage.updateSettings({
+                                volume: e.target.value / 100,
+                            });
+                        });
+
+                    document
+                        .getElementById("music-toggle")
+                        ?.addEventListener("change", (e) => {
+                            this.#setMusicEnabled(e.target.checked);
+                        });
+
+                    document
+                        .getElementById("music-toggle-quick")
+                        ?.addEventListener("change", (e) => {
+                            this.#setMusicEnabled(e.target.checked);
+                        });
+
+                    document
+                        .getElementById("sfx-toggle")
+                        ?.addEventListener("change", (e) => {
+                            this.#audio.setEnabled(e.target.checked);
+                            this.#storage.updateSettings({
+                                sfxEnabled: e.target.checked,
+                            });
+                        });
+
+                    document
+                        .getElementById("music-style-select")
+                        ?.addEventListener("change", (e) => {
+                            this.#setMusicStyle(e.target.value);
+                        });
+
+                    document
+                        .getElementById("music-style-quick")
+                        ?.addEventListener("change", (e) => {
+                            this.#setMusicStyle(e.target.value);
+                        });
+
+                    // Theme toggle buttons in settings
+                    document
+                        .querySelectorAll("[data-theme-choice]")
+                        .forEach((btn) => {
+                            btn.addEventListener("click", () => {
+                                ThemeManager.set(btn.dataset.themeChoice);
+                                this.#storage.updateSettings({
+                                    theme: ThemeManager.current,
+                                });
+                                const msg =
+                                    I18n.t(
+                                        `toast.theme_${ThemeManager.current}`,
+                                    ) || I18n.t("toast.theme_dark");
+                                showToast(msg);
+                            });
+                        });
+
+                    // Language select in settings
+                    document
+                        .getElementById("lang-select")
+                        ?.addEventListener("change", (e) => {
+                            this.#setLanguage(e.target.value);
+                        });
+
+                    document
+                        .getElementById("lang-select-quick")
+                        ?.addEventListener("change", (e) => {
+                            this.#setLanguage(e.target.value);
+                        });
+
+                    // Initialize audio on first user interaction
+                    document.addEventListener(
+                        "click",
+                        () => {
+                            this.#audio.init();
+                            this.#audio.resume();
+                        },
+                        { once: true },
+                    );
+
+                    document.addEventListener(
+                        "keydown",
+                        () => {
+                            this.#audio.init();
+                            this.#audio.resume();
+                        },
+                        { once: true },
+                    );
+                }
+
+                /**
+                 * Apply loaded settings
+                 */
+                #applySettings() {
+                    const settings = this.#storage.getSettings();
+
+                    // Input settings
+                    this.#input.setConfig({
+                        DAS: settings.das,
+                        ARR: settings.arr,
+                        SDF: settings.sdf,
+                    });
+
+                    // Audio settings
+                    this.#audio.setMasterVolume(settings.volume);
+                    this.#audio.setMusicVolume(settings.musicVolume);
+                    this.#audio.setSfxVolume(settings.sfxVolume);
+                    this.#audio.setEnabled(
+                        settings.sfxEnabled !== false ? settings.sfxEnabled : true,
+                    );
+                    this.#setMusicStyle(settings.musicStyle || "classic");
+                    this.#setMusicEnabled(
+                        settings.musicEnabled === true,
+                        false,
+                    );
+
+                    // Theme
+                    ThemeManager.set(settings.theme || ThemeManager.current);
+                    this.#storage.updateSettings({ theme: ThemeManager.current });
+
+                    // Update UI elements
+                    const dasSlider = document.getElementById("das-slider");
+                    const arrSlider = document.getElementById("arr-slider");
+                    const volumeSlider =
+                        document.getElementById("volume-slider");
+
+                    if (dasSlider) {
+                        dasSlider.value = settings.das;
+                        document.getElementById("das-value").textContent =
+                            settings.das;
+                    }
+                    if (arrSlider) {
+                        arrSlider.value = settings.arr;
+                        document.getElementById("arr-value").textContent =
+                            settings.arr;
+                    }
+                    if (volumeSlider) {
+                        volumeSlider.value = settings.volume * 100;
+                    }
+
+                    this.#syncMusicStyle(settings.musicStyle || "classic");
+                    this.#syncMusicToggle(
+                        settings.musicEnabled === true,
+                    );
+
+                    const musicToggle = document.getElementById("music-toggle");
+                    if (musicToggle) {
+                        musicToggle.checked = settings.musicEnabled === true;
+                    }
+
+                    const sfxToggle = document.getElementById("sfx-toggle");
+                    if (sfxToggle) {
+                        sfxToggle.checked =
+                            settings.sfxEnabled !== false
+                                ? settings.sfxEnabled
+                                : true;
+                    }
+                }
+
+                /**
+                 * Update language button states
+                 */
+                #updateLangButtons(lang) {
+                    ["lang-select", "lang-select-quick"].forEach((id) => {
+                        const langSelect = document.getElementById(id);
+                        if (langSelect) langSelect.value = lang;
+                    });
+                    this.#customSelects?.syncAll();
+                }
+
+                /**
+                 * Sync music style dropdowns
+                 * @param {string} value
+                 */
+                #syncMusicStyle(value) {
+                    ["music-style-select", "music-style-quick"].forEach(
+                        (id) => {
+                            const selectEl = document.getElementById(id);
+                            if (selectEl) selectEl.value = value;
+                        },
+                    );
+                    this.#customSelects?.syncAll();
+                }
+
+                /**
+                 * Sync music toggles
+                 * @param {boolean} enabled
+                 */
+                #syncMusicToggle(enabled) {
+                    ["music-toggle", "music-toggle-quick"].forEach((id) => {
+                        const checkbox = document.getElementById(id);
+                        if (checkbox) checkbox.checked = enabled;
+                    });
+                }
+
+                /**
+                 * Set music style and restart loop if needed
+                 * @param {string} style
+                 */
+                #setMusicStyle(style) {
+                    const allowed = ["classic", "pulse", "ambient"];
+                    const nextStyle = allowed.includes(style)
+                        ? style
+                        : "classic";
+                    this.#audio.setMusicStyle(nextStyle);
+                    this.#storage.updateSettings({ musicStyle: nextStyle });
+                    this.#syncMusicStyle(nextStyle);
+                    if (this.#audio.isMusicPlaying()) {
+                        this.#audio.playMusic();
+                    }
+                }
+
+                /**
+                 * Enable or disable music globally
+                 * @param {boolean} enabled
+                 */
+                #setMusicEnabled(enabled, autoplay = true) {
+                    this.#audio.setMusicEnabled(enabled);
+                    if (enabled && autoplay) {
+                        this.#audio.playMusic();
+                    } else {
+                        this.#audio.stopMusic();
+                    }
+                    this.#storage.updateSettings({ musicEnabled: enabled });
+                    this.#syncMusicToggle(enabled);
+                }
+
+                /**
+                 * Set language globally and synchronize all selectors.
+                 * @param {string} lang - Locale code
+                 */
+                #setLanguage(lang) {
+                    I18n.load(lang);
+                    localStorage.setItem("r3tro_blocks_lang", lang);
+                    this.#updateLangButtons(lang);
+                    this.#ui?.refreshLocalizedContent();
+                    showToast(I18n.t("toast.lang_changed"));
+                }
+
+                /**
+                 * Start a new game
+                 * @param {string} mode - Game mode
+                 */
+                start(mode = "marathon") {
+                    this.#engine.reset(mode);
+                    this.#gravityAccumulator = 0;
+                    this.#lastTime = 0;
+                    this.#running = true;
+
+                    this.#ui.showScreen("game");
+                    this.#ui.hidePause();
+                    this.#input.setEnabled(true);
+
+                    // Start music
+                    this.#audio.playMusic();
+
+                    // Start game loop
+                    requestAnimationFrame((t) => this.#gameLoop(t));
+                }
+
+                /**
+                 * Main game loop
+                 * @param {number} timestamp - Current timestamp
+                 */
+                #gameLoop(timestamp) {
+                    if (!this.#running) return;
+
+                    if (this.#lastTime === 0) {
+                        this.#lastTime = timestamp;
+                    }
+
+                    const deltaTime = Math.min(timestamp - this.#lastTime, 100);
+                    this.#lastTime = timestamp;
+
+                    if (!this.#engine.paused && !this.#engine.gameOver) {
+                        // Update engine
+                        this.#engine.update(deltaTime);
+
+                        // Apply gravity
+                        const gravity = this.#engine.getGravity();
+                        const effectiveGravity = this.#input.isSoftDropHeld()
+                            ? gravity / this.#input.getSoftDropFactor()
+                            : gravity;
+
+                        this.#gravityAccumulator += deltaTime;
+                        while (this.#gravityAccumulator >= effectiveGravity) {
+                            this.#engine.applyGravity();
+                            this.#gravityAccumulator -= effectiveGravity;
+                        }
+
+                        // Poll gamepad
+                        this.#input.pollGamepad();
+                    }
+
+                    // Update HUD
+                    this.#ui.updateHUD({
+                        score: this.#engine.score,
+                        level: this.#engine.level,
+                        lines: this.#engine.lines,
+                        time: this.#engine.timeElapsed,
+                        combo: this.#engine.combo,
+                        holdPiece: this.#engine.holdPiece,
+                        canHold: this.#engine.canHold,
+                        nextPieces: this.#engine.getNextPieces(5),
+                    });
+
+                    // Update level progress
+                    const linesInLevel = this.#engine.lines % 10;
+                    const progress = (linesInLevel / 10) * 100;
+                    const progressEl =
+                        document.getElementById("level-progress");
+                    if (progressEl) {
+                        progressEl.style.width = `${progress}%`;
+                    }
+
+                    // Render
+                    this.#renderer.render();
+
+                    // Continue loop
+                    requestAnimationFrame((t) => this.#gameLoop(t));
+                }
+            }
+
+            // Initialize game when DOM is ready
+            document.addEventListener("DOMContentLoaded", () => {
+                window.game = new BlocksApp();
+            });
+        </script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

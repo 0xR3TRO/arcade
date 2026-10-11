@@ -1,0 +1,218 @@
+@import url("../shared/fonts/fonts.css");
+
+:root {
+    --bg: #0a0e14;
+    --surface: #111924;
+    --surface-2: #172231;
+    --line: #22324a;
+    --text: #e6edf3;
+    --muted: #8b98a9;
+    --accent: #39ff88;
+    --accent-2: #3ad7ff;
+    --accent-3: #ff4fd8;
+    color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    background:
+        radial-gradient(900px 480px at 15% -10%, rgba(57, 255, 136, 0.12), transparent 60%),
+        radial-gradient(900px 520px at 90% -20%, rgba(255, 79, 216, 0.12), transparent 60%),
+        linear-gradient(transparent 0 calc(100% - 1px), rgba(58, 215, 255, 0.04) 0) 0 0 / 100% 4px,
+        var(--bg);
+    color: var(--text);
+    font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a {
+    color: var(--accent-2);
+}
+
+.hero {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 56px 16px 28px;
+    text-align: center;
+}
+
+.eyebrow {
+    margin: 0 0 14px;
+    font-size: 13px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.logo {
+    margin: 0;
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: clamp(30px, 7vw, 64px);
+    line-height: 1.15;
+    color: var(--accent);
+    text-shadow:
+        0 0 18px rgba(57, 255, 136, 0.45),
+        4px 4px 0 #0f4d2b;
+}
+
+.logo span {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.5em;
+    letter-spacing: 0.32em;
+    color: var(--accent-3);
+    text-shadow:
+        0 0 14px rgba(255, 79, 216, 0.45),
+        3px 3px 0 #4d1442;
+}
+
+.tagline {
+    max-width: 560px;
+    margin: 22px auto 26px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.chip {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font: 600 14px/1 "Space Grotesk", system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.chip[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: rgba(57, 255, 136, 0.12);
+    color: var(--accent);
+}
+
+.chip:focus-visible,
+.card:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 8px 16px 48px;
+    list-style: none;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: var(--tint);
+    box-shadow: 0 10px 30px -12px var(--tint);
+}
+
+.icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--tint) 14%, transparent);
+    color: var(--tint);
+}
+
+.icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.card h2 {
+    margin: 0 0 6px;
+    font-size: 19px;
+}
+
+.card p {
+    flex: 1;
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.tag {
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.best {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.best:empty {
+    display: none;
+}
+
+.footer {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.footer .small {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+    }
+    .card:hover {
+        transform: none;
+    }
+}

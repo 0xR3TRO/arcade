@@ -1,0 +1,73 @@
+{
+    "themes": {
+        "classic": {
+            "name": "Classic",
+            "background": "#212837",
+            "boardBorder": "#2a3347",
+            "snakeHead": "#4CAF50",
+            "snakeBody": "#66BB6A",
+            "food": "#FF003D",
+            "obstacle": "#FF9800",
+            "gridLine": "rgba(255,255,255,0.03)",
+            "text": "#B8C6DC",
+            "accent": "#3457DC",
+            "uiBg": "#111118",
+            "hudBg": "#181c28",
+            "buttonBg": "#3457DC",
+            "buttonText": "#ffffff",
+            "overlay": "rgba(0,0,0,0.85)"
+        },
+        "neon": {
+            "name": "Neon",
+            "background": "#0a0a1a",
+            "boardBorder": "#1a1a3a",
+            "snakeHead": "#00FF88",
+            "snakeBody": "#00CC6A",
+            "food": "#FF00FF",
+            "obstacle": "#FFAA00",
+            "gridLine": "rgba(0,255,136,0.04)",
+            "text": "#00FF88",
+            "accent": "#FF00FF",
+            "uiBg": "#050510",
+            "hudBg": "#0a0a20",
+            "buttonBg": "#FF00FF",
+            "buttonText": "#0a0a1a",
+            "overlay": "rgba(5,5,16,0.92)"
+        },
+        "dark": {
+            "name": "Dark",
+            "background": "#1a1a1a",
+            "boardBorder": "#2a2a2a",
+            "snakeHead": "#e0e0e0",
+            "snakeBody": "#b0b0b0",
+            "food": "#ff4444",
+            "obstacle": "#ff8800",
+            "gridLine": "rgba(255,255,255,0.02)",
+            "text": "#cccccc",
+            "accent": "#888888",
+            "uiBg": "#0d0d0d",
+            "hudBg": "#141414",
+            "buttonBg": "#444444",
+            "buttonText": "#ffffff",
+            "overlay": "rgba(0,0,0,0.9)"
+        },
+        "retro": {
+            "name": "Retro",
+            "background": "#306230",
+            "boardBorder": "#0f380f",
+            "snakeHead": "#0f380f",
+            "snakeBody": "#0f380f",
+            "food": "#0f380f",
+            "obstacle": "#0f380f",
+            "gridLine": "rgba(15,56,15,0.15)",
+            "text": "#0f380f",
+            "accent": "#0f380f",
+            "uiBg": "#9bbc0f",
+            "hudBg": "#8bac0f",
+            "buttonBg": "#0f380f",
+            "buttonText": "#9bbc0f",
+            "overlay": "rgba(15,56,15,0.9)"
+        }
+    },
+    "default": "classic"
+}

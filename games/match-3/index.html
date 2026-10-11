@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Match-3 — swap gems to line up three or more. 30 moves, chase the high score. Part of R3TRO Arcade." />
+        <title>Match-3 · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <style>
+            :root {
+                --w: 560px;
+                --ratio: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">MATCH-3</h1>
+            <div class="stats">
+                <div class="stat"><span>Score</span><b id="score">0</b></div>
+                <div class="stat"><span>Moves</span><b id="moves">30</b></div>
+                <div class="stat"><span>Best</span><b id="best">0</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="frame">
+                <canvas class="board fit-height" id="board" aria-label="Match-3 game board"></canvas>
+                <div class="overlay" id="overlay">
+                    <div>
+                        <h2 id="overlay-title">MATCH-3</h2>
+                        <p id="overlay-text">Swap two neighbouring gems to make a line of three or more.<br />Chains score more. You have 30 moves.</p>
+                        <button class="btn" id="start">Play</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <p class="hint">Drag a gem onto a neighbour, or click two neighbouring gems · <kbd>N</kbd> — new game</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="../../shared/canvas.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

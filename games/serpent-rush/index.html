@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="SerpentRush — A modern, browser-based Snake arcade mini-game."
+        />
+        <title>SerpentRush</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="../../shared/fonts/fonts.css" />
+    </head>
+    <body>
+        <div id="game-container">
+            <!-- Header -->
+            <div class="game-header">
+                <span class="game-title">SERPENTRUSH</span>
+                <div class="header-buttons">
+                    <button id="btn-pause" class="icon-btn" title="Pause (P)">
+                        ⏸
+                    </button>
+                    <button id="btn-restart" class="icon-btn" title="Restart">
+                        ↺
+                    </button>
+                    <button id="btn-settings" class="icon-btn" title="Settings">
+                        ⚙
+                    </button>
+                </div>
+            </div>
+
+            <!-- HUD -->
+            <div class="hud">
+                <div class="hud-item">
+                    <div class="hud-label">Score</div>
+                    <div class="hud-value" id="hud-score">0</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-label">Best</div>
+                    <div class="hud-value" id="hud-highscore">0</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-label">Mode</div>
+                    <div class="hud-value" id="hud-mode">--</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-label">Speed</div>
+                    <div class="hud-value" id="hud-level">1</div>
+                </div>
+            </div>
+
+            <!-- Timer (Time Attack mode) -->
+            <div id="hud-timer"></div>
+
+            <!-- Game Board -->
+            <div class="board-wrapper">
+                <canvas id="game-canvas"></canvas>
+
+                <!-- Start Screen -->
+                <div id="screen-start" class="overlay-screen">
+                    <div class="overlay-title">SERPENTRUSH</div>
+                    <div class="overlay-subtitle">
+                        A modern take on the classic Snake. Choose a mode and
+                        hit play!
+                    </div>
+                    <div class="mode-select-wrapper">
+                        <label class="mode-select-label" for="mode-select"
+                            >Game Mode</label
+                        >
+                        <select id="mode-select"></select>
+                    </div>
+                    <button id="btn-play" class="btn">PLAY</button>
+                </div>
+
+                <!-- Pause Screen -->
+                <div id="screen-pause" class="overlay-screen">
+                    <div class="overlay-title">PAUSED</div>
+                    <div class="btn-row">
+                        <button id="btn-resume" class="btn">RESUME</button>
+                        <button id="btn-quit-pause" class="btn btn-secondary">
+                            QUIT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div id="screen-gameover" class="overlay-screen">
+                    <div class="overlay-title">GAME OVER</div>
+                    <div class="overlay-score" id="gameover-score">0</div>
+                    <div class="overlay-highscore">
+                        Best: <span id="gameover-highscore">0</span>
+                    </div>
+                    <div class="btn-row">
+                        <button id="btn-playagain" class="btn">
+                            PLAY AGAIN
+                        </button>
+                        <button
+                            id="btn-quit-gameover"
+                            class="btn btn-secondary"
+                        >
+                            MENU
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Settings Panel -->
+                <div id="settings-panel" class="settings-panel">
+                    <div class="overlay-title">SETTINGS</div>
+                    <div class="settings-row">
+                        <span class="settings-label">Theme</span>
+                        <select id="theme-select"></select>
+                    </div>
+                    <button id="btn-close-settings" class="btn btn-secondary">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- Touch Controls (mobile) -->
+            <div class="touch-controls">
+                <button id="touch-up" class="touch-btn">▲</button>
+                <button id="touch-left" class="touch-btn">◀</button>
+                <button id="touch-right" class="touch-btn">▶</button>
+                <button id="touch-down" class="touch-btn">▼</button>
+            </div>
+        </div>
+
+        <script type="module" src="script.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

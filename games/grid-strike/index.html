@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GridStrike — Tic-Tac-Toe</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    </head>
+    <body>
+        <div class="app">
+            <header class="header">
+                <div class="header__brand">
+                    <h1 class="header__title">GridStrike</h1>
+                    <p class="header__tagline">
+                        A modern take on the classic Tic-Tac-Toe
+                    </p>
+                </div>
+                <button
+                    class="theme-toggle"
+                    id="theme-toggle"
+                    aria-label="Toggle dark/light theme"
+                >
+                    <span class="theme-toggle__icon">🌙</span>
+                </button>
+            </header>
+
+            <main class="main">
+                <!-- Options Panel -->
+                <section class="options" aria-label="Game options">
+                    <div
+                        class="mode-selector"
+                        role="group"
+                        aria-label="Game mode"
+                    >
+                        <button class="btn btn--mode active" data-mode="pvp">
+                            Player vs Player
+                        </button>
+                        <button class="btn btn--mode" data-mode="pvcpu">
+                            Player vs CPU
+                        </button>
+                    </div>
+                    <div
+                        class="difficulty-selector hidden"
+                        role="group"
+                        aria-label="CPU difficulty"
+                    >
+                        <button class="btn btn--diff active" data-diff="easy">
+                            Easy
+                        </button>
+                        <button class="btn btn--diff" data-diff="smart">
+                            Smart
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Game Board -->
+                <section class="board-wrapper" aria-label="Game board">
+                    <div class="board" id="game-board"></div>
+                </section>
+
+                <!-- Status Panel -->
+                <section class="status" aria-label="Game status">
+                    <p class="status__message" id="status-message">
+                        Player X's turn
+                    </p>
+                    <div class="scoreboard">
+                        <div class="scoreboard__item">
+                            <span class="scoreboard__label scoreboard__label--x"
+                                >X wins</span
+                            >
+                            <span class="scoreboard__value" id="score-x"
+                                >0</span
+                            >
+                        </div>
+                        <div class="scoreboard__item">
+                            <span
+                                class="scoreboard__label scoreboard__label--draw"
+                                >Draws</span
+                            >
+                            <span class="scoreboard__value" id="score-draws"
+                                >0</span
+                            >
+                        </div>
+                        <div class="scoreboard__item">
+                            <span class="scoreboard__label scoreboard__label--o"
+                                >O wins</span
+                            >
+                            <span class="scoreboard__value" id="score-o"
+                                >0</span
+                            >
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Action Buttons -->
+                <section class="actions" aria-label="Game actions">
+                    <button class="btn btn--primary" id="restart-btn">
+                        Restart Round
+                    </button>
+                    <button class="btn btn--secondary" id="reset-btn">
+                        Reset Scores
+                    </button>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <p>
+                    GridStrike &copy; 2026 &mdash; Built with HTML, CSS &amp;
+                    JavaScript
+                </p>
+            </footer>
+        </div>
+
+        <script src="script.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

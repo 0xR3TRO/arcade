@@ -1,0 +1,41 @@
+{
+    "modes": {
+        "classic": {
+            "name": "Classic",
+            "description": "Standard Snake. Walls kill. Speed increases as you grow.",
+            "wallCollision": true,
+            "wrapAround": false,
+            "obstacles": false,
+            "timeLimit": 0,
+            "speedScale": 1.0
+        },
+        "endless": {
+            "name": "Endless",
+            "description": "No walls — wrap around edges. Difficulty rises over time.",
+            "wallCollision": false,
+            "wrapAround": true,
+            "obstacles": false,
+            "timeLimit": 0,
+            "speedScale": 1.2
+        },
+        "timeattack": {
+            "name": "Time Attack",
+            "description": "Score as many points as you can before time runs out!",
+            "wallCollision": true,
+            "wrapAround": false,
+            "obstacles": false,
+            "timeLimit": 60,
+            "speedScale": 0.8
+        },
+        "obstacles": {
+            "name": "Obstacles",
+            "description": "Navigate around static obstacles. Hit one and it's game over.",
+            "wallCollision": true,
+            "wrapAround": false,
+            "obstacles": true,
+            "timeLimit": 0,
+            "speedScale": 0.9
+        }
+    },
+    "default": "classic"
+}

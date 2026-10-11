@@ -1,0 +1,53 @@
+{
+    "gameName": "Clash of Choices",
+    "version": "1.0.0",
+    "author": "0xR3TR0",
+    "defaults": {
+        "mode": "quick",
+        "difficulty": "normal",
+        "darkMode": true,
+        "soundEnabled": true,
+        "bestOfTarget": 3
+    },
+    "modes": [
+        {
+            "id": "quick",
+            "label": "Quick Match",
+            "description": "Single round — instant result"
+        },
+        {
+            "id": "bestof",
+            "label": "Best of X",
+            "description": "First to N wins takes the series",
+            "options": [3, 5, 7]
+        },
+        {
+            "id": "local",
+            "label": "Local 1v1",
+            "description": "Two players, one device"
+        }
+    ],
+    "difficulties": [
+        {
+            "id": "easy",
+            "label": "Easy",
+            "description": "Pure random moves"
+        },
+        {
+            "id": "normal",
+            "label": "Normal",
+            "description": "Counters your last move sometimes"
+        },
+        {
+            "id": "hard",
+            "label": "Hard",
+            "description": "Analyzes your patterns"
+        }
+    ],
+    "choices": ["rock", "paper", "scissors"],
+    "rules": {
+        "rock": "scissors",
+        "scissors": "paper",
+        "paper": "rock"
+    }
+}

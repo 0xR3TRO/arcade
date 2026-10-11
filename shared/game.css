@@ -1,0 +1,257 @@
+/* R3TRO Arcade — shared look for the games written for the arcade. */
+@import url("fonts/fonts.css");
+
+:root {
+    --bg: #0a0e14;
+    --surface: #111924;
+    --surface-2: #172231;
+    --line: #22324a;
+    --text: #e6edf3;
+    --muted: #8b98a9;
+    --accent: #39ff88;
+    --accent-2: #3ad7ff;
+    --accent-3: #ff4fd8;
+    --warn: #ffd23f;
+    --danger: #ff5d6c;
+    --radius: 14px;
+    --w: 720px;
+    color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background:
+        radial-gradient(1100px 520px at 50% -12%, #13233a 0%, transparent 62%),
+        var(--bg);
+    color: var(--text);
+    font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.game-header {
+    width: 100%;
+    max-width: var(--w);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 16px 10px;
+}
+
+.game-title {
+    margin: 0;
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: 15px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-shadow: 0 0 14px rgba(57, 255, 136, 0.35);
+}
+
+.stats {
+    display: flex;
+    gap: 8px;
+}
+
+.stat {
+    min-width: 74px;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    text-align: center;
+}
+
+.stat span {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.stat b {
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+}
+
+.stage {
+    position: relative;
+    width: 100%;
+    max-width: var(--w);
+    padding: 0 16px;
+}
+
+.frame {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+canvas.board {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    touch-action: none;
+    user-select: none;
+}
+
+/* Portrait boards: fit the viewport height as well as the width. */
+canvas.board.fit-height {
+    width: auto;
+    height: min(
+        calc(100dvh - 190px),
+        calc((min(100vw, var(--w)) - 32px) * var(--ratio, 1))
+    );
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    border-radius: var(--radius);
+    background: rgba(7, 11, 17, 0.74);
+    backdrop-filter: blur(3px);
+    text-align: center;
+}
+
+.overlay[hidden] {
+    display: none;
+}
+
+.overlay h2 {
+    margin: 0 0 12px;
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--accent);
+}
+
+.overlay p {
+    margin: 0 0 18px;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+.overlay .big {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.btn {
+    font: inherit;
+    font-weight: 600;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #04140b;
+    cursor: pointer;
+}
+
+.btn.secondary {
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.btn[aria-pressed="true"] {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 12px;
+}
+
+select {
+    font: inherit;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.hint {
+    max-width: var(--w);
+    margin: 12px 16px 64px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+kbd {
+    padding: 1px 6px;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    font: 600 12px/1.6 "Space Grotesk", system-ui, sans-serif;
+    color: var(--text);
+}
+
+.touch-controls {
+    display: none;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+@media (pointer: coarse) {
+    .touch-controls {
+        display: flex;
+    }
+}
+
+.touch-controls .btn {
+    min-width: 96px;
+    padding: 14px 18px;
+    user-select: none;
+    touch-action: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

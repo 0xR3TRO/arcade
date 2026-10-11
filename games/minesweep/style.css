@@ -1,0 +1,112 @@
+:root {
+    --w: 980px;
+    --cell: 34px;
+}
+
+.field-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.field {
+    display: grid;
+    gap: 3px;
+    width: max-content;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.cell {
+    width: var(--cell);
+    height: var(--cell);
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: linear-gradient(180deg, #24364f, #1b2a3e);
+    box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+    color: var(--text);
+    font: 700 16px/1 "Space Grotesk", system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background: linear-gradient(180deg, #2c4462, #213350);
+}
+
+.cell:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 1px;
+}
+
+.cell.open {
+    background: #0f1823;
+    box-shadow: none;
+    cursor: default;
+}
+
+.cell.flag::after {
+    content: "";
+    width: 12px;
+    height: 14px;
+    background: var(--danger);
+    clip-path: polygon(0 0, 100% 35%, 18% 70%, 18% 100%, 0 100%);
+}
+
+.cell.mine {
+    background: #3a1820;
+}
+
+.cell.mine::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff 0 2px, #0a0e14 3px);
+    box-shadow: 0 0 0 3px rgba(255, 93, 108, 0.35);
+}
+
+.cell.mine.hit {
+    background: var(--danger);
+}
+
+.cell.wrong::after {
+    content: "×";
+    width: auto;
+    height: auto;
+    background: none;
+    clip-path: none;
+    color: var(--danger);
+    font-size: 20px;
+}
+
+.n1 { color: #3ad7ff; }
+.n2 { color: #39ff88; }
+.n3 { color: #ff5d6c; }
+.n4 { color: #b783ff; }
+.n5 { color: #ff9a3c; }
+.n6 { color: #2fe0c8; }
+.n7 { color: #e6edf3; }
+.n8 { color: #8b98a9; }
+
+.status {
+    min-height: 1.5em;
+    margin: 12px 0 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.status.win { color: var(--accent); }
+.status.lose { color: var(--danger); }
+
+@media (max-width: 520px) {
+    :root { --cell: 30px; }
+}

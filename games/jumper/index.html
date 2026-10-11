@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Jumper — bounce your robot higher and higher across the platforms. Part of R3TRO Arcade." />
+        <title>Jumper · R3TRO Arcade</title>
+        <link rel="stylesheet" href="../../shared/game.css" />
+        <style>
+            :root {
+                --w: 420px;
+                --ratio: 1.6667; /* 600 / 360 */
+            }
+        </style>
+    </head>
+    <body>
+        <header class="game-header">
+            <h1 class="game-title">JUMPER</h1>
+            <div class="stats">
+                <div class="stat"><span>Height</span><b id="score">0</b></div>
+                <div class="stat"><span>Best</span><b id="best">0</b></div>
+            </div>
+        </header>
+
+        <main class="stage">
+            <div class="frame">
+                <canvas class="board fit-height" id="board" aria-label="Jumper game board"></canvas>
+                <div class="overlay" id="overlay">
+                    <div>
+                        <h2 id="overlay-title">JUMPER</h2>
+                        <p id="overlay-text">Steer left and right. Blue pads move, cracked pads break, springs launch you.</p>
+                        <button class="btn" id="start">Play</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <p class="hint"><kbd>←</kbd> <kbd>→</kbd> / <kbd>A</kbd> <kbd>D</kbd> — steer · touch: hold the left or right half · <kbd>P</kbd> — pause</p>
+
+        <script src="../../shared/scores.js"></script>
+        <script src="../../shared/canvas.js"></script>
+        <script src="game.js"></script>
+        <script src="../../shared/back.js" defer></script>
+    </body>
+</html>

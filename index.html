@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="R3TRO Arcade — 14 browser games by 0xR3TRO. No installs, no ads, no trackers." />
+        <meta name="theme-color" content="#0a0e14" />
+        <title>R3TRO Arcade</title>
+        <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+        <link rel="stylesheet" href="assets/arcade.css" />
+    </head>
+    <body>
+        <header class="hero">
+            <p class="eyebrow">0xR3TRO presents</p>
+            <h1 class="logo">R3TRO<span>ARCADE</span></h1>
+            <p class="tagline">14 browser games. No installs, no ads, no trackers — your best scores stay in your browser.</p>
+            <nav class="filters" aria-label="Filter games">
+                <button class="chip" data-filter="all" aria-pressed="true">All</button>
+                <button class="chip" data-filter="action" aria-pressed="false">Action</button>
+                <button class="chip" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+                <button class="chip" data-filter="classic" aria-pressed="false">Classic</button>
+                <button class="chip" data-filter="skill" aria-pressed="false">Skill</button>
+                <button class="chip" data-filter="toy" aria-pressed="false">Toys</button>
+            </nav>
+        </header>
+
+        <main>
+            <ul class="grid" id="games"></ul>
+        </main>
+
+        <footer class="footer">
+            <p>
+                Made by <a href="https://github.com/0xR3TRO">0xR3TRO</a> ·
+                <a href="https://github.com/0xR3TRO/r3tro-arcade">Source code</a> ·
+                <a href="https://github.com/0xR3TRO/r3tro-arcade/blob/main/LICENSE">MIT License</a> ·
+                <a href="https://github.com/0xR3TRO/r3tro-arcade/blob/main/THIRD_PARTY_NOTICES.md">Credits &amp; notices</a>
+            </p>
+            <p class="small">All game names, graphics and code are original. Mentioned genres (block puzzles, maze chases, endless runners…) are generic game concepts.</p>
+        </footer>
+
+        <script src="shared/scores.js"></script>
+        <script src="assets/arcade.js"></script>
+    </body>
+</html>

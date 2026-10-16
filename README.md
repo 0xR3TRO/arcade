@@ -2,7 +2,7 @@
 
 14 browser games in one place — no installs, no ads, no trackers.
 
-**Play:** https://klefas.me/r3tro-arcade/
+**Play:** https://klefas.me/arcade/
 
 | Game | Genre | What it is |
 | --- | --- | --- |
